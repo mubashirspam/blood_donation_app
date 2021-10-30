@@ -7,7 +7,10 @@ class StatusScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('Status'),
+        child: Text(
+          'Status',
+          style: TextStyle(color: Colors.black),
+        ),
       ),
     );
   }

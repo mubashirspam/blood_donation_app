@@ -23,7 +23,6 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
           color: Color(0xfff6f7fa),
         ),
         child: TextFormField(
-          
           style: TextStyle(
             color: Color(0xff4058AE),
           ),
@@ -74,10 +73,6 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Add Person',
-          style: Theme.of(context).textTheme.headline1,
-        ),
         elevation: 0,
       ),
       body: Form(

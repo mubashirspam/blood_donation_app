@@ -1,7 +1,6 @@
 import 'package:blood_donation/screens/add_details_screen.dart';
 import 'package:blood_donation/screens/home_screen.dart';
 import 'package:blood_donation/screens/profile_screen.dart';
-import 'package:blood_donation/screens/settings_screen.dart';
 import 'package:blood_donation/screens/status_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -27,18 +26,28 @@ class _TabScreenState extends State<TabScreen> {
       'title': 'Application Status',
     },
     {
-      'page': SettingsScreen(),
-      'title': 'Settings',
-    },
-    {
       'page': ProfileScreen(),
       'title': 'My Profile',
     },
   ];
+  int _selectedIndex = 0;
+  void _selectPage(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: _pages[_selectedIndex]['page'] as Widget,
+      appBar: AppBar(
+        leading: Icon(Icons.menu_outlined),
+        title: Text(_pages[_selectedIndex]['title'] as String),
+      ),
       bottomNavigationBar: BottomNavigationBar(
+        onTap: _selectPage,
+        currentIndex: _selectedIndex,
         selectedItemColor: Theme.of(context).colorScheme.secondary,
         unselectedItemColor: Theme.of(context).colorScheme.onPrimary,
         items: [
@@ -50,28 +59,23 @@ class _TabScreenState extends State<TabScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
+              Icons.add_outlined,
+            ),
+            label: 'Settings',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
               Icons.list_alt_outlined,
             ),
             label: 'Status',
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.settings_accessibility_outlined,
-            ),
-            label: 'Settings',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.verified_user_outlined,
+              Icons.person_outline,
             ),
             label: 'Me',
           ),
         ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add),
       ),
     );
   }
