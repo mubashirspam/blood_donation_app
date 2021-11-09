@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "412986527136",
+    "project_id": "gramaphone-f4bd4",
+    "storage_bucket": "gramaphone-f4bd4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412986527136:android:5526ea74a513aca8fce8c5",
+        "android_client_info": {
+          "package_name": "com.example.blood_donation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "412986527136-uj0coiech5fqksrarte8llfqcsk0mcva.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIJsPQYm_0gP8H3bQNCDtM_0o1UyyHodA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "412986527136-uj0coiech5fqksrarte8llfqcsk0mcva.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
