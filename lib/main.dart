@@ -23,7 +23,6 @@ class MyApp extends StatelessWidget {
           secondary: Color(0xfff1908c),
           primary: Colors.white,
           onPrimary: Color(0xff506eda),
-          
         ),
         cardColor: Color(0xfff1f5fc),
         scaffoldBackgroundColor: Colors.white,
