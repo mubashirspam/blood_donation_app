@@ -3,7 +3,7 @@ import 'package:blood_donation/widgets/blood_card_item.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
-  static final routName = '/home_screen';
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
