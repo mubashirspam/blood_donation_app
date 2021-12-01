@@ -1,54 +1,40 @@
-import 'package:blood_donation/DUMMY_DATA.dart';
+import 'package:blood_donation/services/blood_card.dart';
+import 'package:blood_donation/services/blood_cards.dart';
 import 'package:blood_donation/widgets/blood_card_item.dart';
-import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+class HomeScreen extends StatefulWidget {
   static final routName = '/home_screen';
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
   @override
   Widget build(BuildContext context) {
+    final bloodCardData = Provider.of<BloodCards>(context);
     return Scaffold(
-        // appBar: AppBar(
-        //   actions: [
-        //     IconButton(
-        //       onPressed: () {},
-        //       icon: Icon(
-        //         Icons.filter_7_rounded,
-        //         color: Theme.of(context).colorScheme.secondary,
-        //         size: 30,
-        //       ),
-        //     ),
-        //     SizedBox(
-        //       width: 25,
-        //     ),
-        //   ],
-        //   leading: Container(
-        //     margin: EdgeInsets.only(left: 25),
-        //     child: IconButton(
-        //         onPressed: () {},
-        //         icon: Icon(
-        //           Icons.search,
-        //           color: Theme.of(context).colorScheme.secondary,
-        //           size: 30,
-        //         )),
-        //   ),
-        //   elevation: 0,
-        // ),
+      appBar: AppBar(title: Text('HomeScreen'),),
         body: Container(
-      width: double.infinity,
-      height: double.infinity,
-      child: GridView(
-        padding: EdgeInsets.all(25),
-        children: DUMMY_DATA
-            .map((blooddata) => BloodCardItem(blooddata.id, blooddata.name,
-                blooddata.nameInMalayam, blooddata.bloodGroup, blooddata.age))
-            .toList(),
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 500,
-          childAspectRatio: 4 / 2,
-          crossAxisSpacing: 25,
-          mainAxisSpacing: 25,
-        ),
-      ),
-    ));
+            padding: EdgeInsets.all(25),
+            width: double.infinity,
+            height: double.infinity,
+            child: GridView.builder(
+              itemCount: bloodCardData.items.length,
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 500,
+                childAspectRatio: 4 / 2,
+                crossAxisSpacing: 25,
+                mainAxisSpacing: 25,
+              ),
+              itemBuilder: (ctx, i) => ChangeNotifierProvider<BloodCard>.value(
+                value: bloodCardData.items[i],
+                child: BloodCardItem(),
+              ),
+            )));
   }
 }
