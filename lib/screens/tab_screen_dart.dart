@@ -2,11 +2,14 @@ import 'package:blood_donation/screens/add_details_screen.dart';
 import 'package:blood_donation/screens/home_screen.dart';
 import 'package:blood_donation/screens/login_screen.dart';
 import 'package:blood_donation/screens/profile_screen.dart';
+import 'package:blood_donation/screens/status_screen.dart';
+import 'package:blood_donation/widgets/drwawer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class TabScreen extends StatefulWidget {
-  static final routName = '/tab_screen';
-  const TabScreen({Key? key}) : super(key: key);
+
+   TabScreen({Key? key }) : super(key: key );
 
   @override
   _TabScreenState createState() => _TabScreenState();
@@ -41,11 +44,12 @@ class _TabScreenState extends State<TabScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Option(),
       body: _pages[_selectedIndex]['page'] as Widget,
-      // appBar: AppBar(
-      //   leading: Icon(Icons.menu_outlined),
-      //   title: Text(_pages[_selectedIndex]['title'] as String),
-      // ),
+      appBar: AppBar(
+        // leading: Icon(Icons.menu_outlined),
+        title: Text(_pages[_selectedIndex]['title'] as String),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
         currentIndex: _selectedIndex,

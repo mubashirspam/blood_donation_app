@@ -5,15 +5,8 @@ import 'package:blood_donation/widgets/blood_card_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatefulWidget {
-  static final routName = '/home_screen';
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-
+class HomeScreen extends StatelessWidget {
+ 
   @override
   Widget build(BuildContext context) {
     final bloodCardData = Provider.of<BloodCards>(context);

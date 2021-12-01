@@ -1,5 +1,9 @@
 import 'package:blood_donation/screens/home_screen.dart';
+import 'package:blood_donation/services/constants.dart';
+import 'package:blood_donation/services/googleSignIn.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '/services/route.dart' as route;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -9,6 +13,43 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        color: Colors.white,
+        child: Center(
+          child: FutureBuilder(
+            future: Authentication.initializeFirebase(context: context),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Text('Error initializing Firebase');
+              } else if (snapshot.connectionState == ConnectionState.done) {
+                return LoginUi();
+              }
+              return CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  CustomColors.firebaseOrange,
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class LoginUi extends StatefulWidget {
+  const LoginUi({ Key? key }) : super(key: key);
+
+  @override
+  _LoginUiState createState() => _LoginUiState();
+}
+
+class _LoginUiState extends State<LoginUi> {
+ 
+  bool _isSigningIn = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pushNamed(HomeScreen.routName);
+                Navigator.of(context).pushNamed(route.homePage);
               },
               child: Text(
                 'Admin',
@@ -62,7 +103,26 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 20,
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () async {
+                setState(() {
+                  _isSigningIn = true;
+                });
+
+                User? user =
+                    await Authentication.signInWithGoogle(context: context);
+
+                setState(() {
+                  _isSigningIn = false;
+                });
+
+                if (user != null) {
+                  Navigator.of(context).pushNamed(route.homePage);
+                }
+
+                setState(() {
+                  _isSigningIn = false;
+                });
+              },
               child: Text(
                 'Log in with Google',
                 style: Theme.of(context).textTheme.headline2,

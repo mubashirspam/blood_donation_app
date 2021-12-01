@@ -132,7 +132,7 @@ List <String> blodGroup = ['A +ve','B +ve','O +ve','AB +ve','AB -ve','A -ve','B 
     
       Provider.of<BloodCards>(context, listen: false)
           .addProduct(_editBloodCard);
-      Navigator.pushReplacementNamed(context, HomeScreen.routName);
+      // Navigator.pushReplacementNamed(context, HomeScreen.routName);
     
   }
 
