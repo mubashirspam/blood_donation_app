@@ -1,6 +1,9 @@
 import 'package:blood_donation/screens/add_details_screen.dart';
+import 'package:blood_donation/services/constants.dart';
+import 'package:blood_donation/services/googleSignIn.dart';
 
 import './screens/tab_screen_dart.dart';
+import './services/route.dart' as route;
 
 import './screens/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -71,12 +74,18 @@ class MyApp extends StatelessWidget {
             ),
         canvasColor: Color(0xfff1f5fc),
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (ctx) => TabScreen(),
-        HomeScreen.routName: (ctx) => HomeScreen(),
-        AddDetailsScreen.routName: (ctx) => AddDetailsScreen(),
-      },
+      // initialRoute: '/',
+      // routes: {
+      //   '/': (ctx) => TabScreen(),
+      //   HomeScreen.routName: (ctx) => HomeScreen(),
+      //   AddDetailsScreen.routName: (ctx) => AddDetailsScreen(),
+      // },
+  
+      onGenerateRoute: route.controller,
+      initialRoute: route.loginPage,
     );
   }
 }
+
+
+
