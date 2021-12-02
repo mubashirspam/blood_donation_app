@@ -35,21 +35,7 @@ class BloodCards with ChangeNotifier {
     return _items.firstWhere((blood) => blood.id == id);
   }
 
-  void addProduct(BloodCard bloodCard) {
-    final newBloodCard = BloodCard(
-        id: DateTime.now().toString(),
-        name: bloodCard.name,
-        nameInMalayam: bloodCard.nameInMalayam,
-        age: bloodCard.age,
-        contact: bloodCard.contact,
-        bloodGroup: bloodCard.bloodGroup,
-        gender: bloodCard.gender);
-
-    _items.add(newBloodCard);
   
-
-    notifyListeners();
-  }
   // void updateBloodcard(String id, BloodCard newBloodcard) {
   //   final bloodIndex = _items.indexWhere((element) => element.id == id);
   //   if (bloodIndex >= 0) {

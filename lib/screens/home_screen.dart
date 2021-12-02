@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloodCardData = Provider.of<BloodCards>(context);
     return Scaffold(
-      appBar: AppBar(title: Text('HomeScreen'),),
+      // appBar: AppBar(title: Text('HomeScreen'),),
         body: Container(
             padding: EdgeInsets.all(25),
             width: double.infinity,
@@ -28,6 +28,8 @@ class HomeScreen extends StatelessWidget {
                 value: bloodCardData.items[i],
                 child: BloodCardItem(),
               ),
-            )));
+            ),
+            ),
+            );
   }
 }

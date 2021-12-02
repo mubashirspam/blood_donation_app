@@ -1,10 +1,11 @@
 import 'package:blood_donation/screens/add_details_screen.dart';
 import 'package:blood_donation/screens/home_screen.dart';
-import 'package:blood_donation/screens/login_screen.dart';
+
 import 'package:blood_donation/screens/profile_screen.dart';
 import 'package:blood_donation/screens/status_screen.dart';
+
 import 'package:blood_donation/widgets/drwawer.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 
 class TabScreen extends StatefulWidget {
@@ -26,7 +27,7 @@ class _TabScreenState extends State<TabScreen> {
       'title': 'Add Person',
     },
     {
-      'page': LoginScreen(),
+      'page': StatusScreen(),
       'title': 'Application Status',
     },
     {

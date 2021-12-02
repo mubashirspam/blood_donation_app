@@ -39,7 +39,8 @@ class BloodCardItem extends StatelessWidget {
                             children: [
                               Text(
                                 bloodCardData.bloodGroup,
-                                style: Theme.of(context).textTheme.headline4,
+                                style: Theme.of(context).textTheme.headline3,
+                                
                               ),
                               Container(
                                 margin: EdgeInsets.symmetric(vertical: 3),
@@ -57,19 +58,31 @@ class BloodCardItem extends StatelessWidget {
                       ),
                     ),
                     Container(
+                      
+                      // color: Colors.red,
                       margin: EdgeInsets.all(20),
-                      height: 50,
-                      child: Column(
-                        children: [
-                          Text(
-                            bloodCardData.name,
-                            style: Theme.of(context).textTheme.headline2,
-                          ),
-                          Text(
-                            bloodCardData.nameInMalayam,
-                            style: Theme.of(context).textTheme.headline2,
-                          ),
-                        ],
+                      height: 70,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            FittedBox(
+                              fit: BoxFit.fitWidth,
+                              child: Text(
+                                bloodCardData.name,
+                                style: Theme.of(context).textTheme.headline2,
+                              ),
+                            ),
+                            FittedBox(
+                              fit: BoxFit.fitWidth,
+                              child: Text(
+                                bloodCardData.nameInMalayam,
+                                style: Theme.of(context).textTheme.headline2,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   ],

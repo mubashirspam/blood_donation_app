@@ -1,4 +1,4 @@
-import 'package:blood_donation/screens/home_screen.dart';
+
 import 'package:blood_donation/services/constants.dart';
 import 'package:blood_donation/services/googleSignIn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -89,7 +89,9 @@ class _LoginUiState extends State<LoginUi> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pushNamed(route.homePage);
+                // Navigator.of(context).pushNamed(route.homePage);
+                Navigator.of(context).pushReplacementNamed(route.adminLoginPage);
+                
               },
               child: Text(
                 'Admin',

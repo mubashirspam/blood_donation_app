@@ -1,13 +1,10 @@
-import 'package:blood_donation/screens/add_details_screen.dart';
-import 'package:blood_donation/services/constants.dart';
-import 'package:blood_donation/services/googleSignIn.dart';
 
-import './screens/tab_screen_dart.dart';
+import 'package:blood_donation/services/blood_cards.dart';
+import 'package:blood_donation/services/blood_status_card.dart';
+import 'package:provider/provider.dart';
+
 import './services/route.dart' as route;
-
-import './screens/home_screen.dart';
 import 'package:flutter/material.dart';
-
 void main() {
   runApp(const MyApp());
 }
@@ -18,7 +15,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = ThemeData();
-    return MaterialApp(
+    return 
+    
+    MultiProvider(providers: [
+      ChangeNotifierProvider(create: (ctx)=>BloodCards())
+    ,ChangeNotifierProvider(create: (ctx)=>BloodStatusCards(),)],
+    child:
+     MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'BloodDonation',
       theme: ThemeData(
@@ -52,6 +55,12 @@ class MyApp extends StatelessWidget {
                 color: Color(0xff506eda),
                 fontWeight: FontWeight.w500,
                 fontFamily: 'Poppins',
+              ),headline2: TextStyle(
+                fontSize: 18
+          ,
+                color: Color(0xff506eda),
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Poppins',
               ),
         
         ),
@@ -71,7 +80,7 @@ class MyApp extends StatelessWidget {
   
       onGenerateRoute: route.controller,
       initialRoute: route.loginPage,
-    );
+     ) );
   }
 }
 
