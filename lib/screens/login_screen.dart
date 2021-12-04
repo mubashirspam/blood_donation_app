@@ -90,7 +90,7 @@ class _LoginUiState extends State<LoginUi> {
             TextButton(
               onPressed: () {
                 // Navigator.of(context).pushNamed(route.homePage);
-                Navigator.of(context).pushReplacementNamed(route.adminLoginPage);
+                Navigator.of(context).pushNamed(route.adminLoginPage);
                 
               },
               child: Text(
@@ -99,7 +99,7 @@ class _LoginUiState extends State<LoginUi> {
               ),
               style: TextButton.styleFrom(
                   minimumSize: Size(double.infinity, 55),
-                  backgroundColor: Theme.of(context).colorScheme.onPrimary),
+                  ),
             ),
             SizedBox(
               height: 20,

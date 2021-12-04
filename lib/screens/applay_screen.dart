@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '/services/route.dart' as route;
 
 class ApplayScreen extends StatelessWidget {
-  const ApplayScreen({Key? key}) : super(key: key);
+  
+
   
 
   @override
@@ -25,9 +26,10 @@ class ApplayScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyText1,
             ),
             TextButton(
+
               onPressed: () {
                 Navigator.of(context)
-                    .pushNamed(AddDetailsScreen.routName,arguments: 'new');
+                    .pushNamed(AddDetailsScreen.routName, arguments: 'new');
               },
               child: Text(
                 'Applay Now',
@@ -35,9 +37,10 @@ class ApplayScreen extends StatelessWidget {
               ),
               style: TextButton.styleFrom(
                   minimumSize: Size(double.infinity, 55),
-                  backgroundColor: Theme.of(context).colorScheme.onPrimary),
+                  // backgroundColor: Theme.of(context).colorScheme.onPrimary,
+                elevation: 1,
+              ),
             ),
-           
           ],
         ),
       ),

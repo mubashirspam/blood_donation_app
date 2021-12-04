@@ -2,11 +2,17 @@
 import 'package:blood_donation/screens/add_details_screen.dart';
 import 'package:blood_donation/services/blood_cards.dart';
 import 'package:blood_donation/services/blood_status_card.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import './services/route.dart' as route;
 import 'package:flutter/material.dart';
 void main() {
+
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: Color(0xff506eda), // navigation bar color
+    statusBarColor: Color(0xff506eda), // status bar color
+  ));
   runApp(const MyApp());
 }
 
@@ -15,6 +21,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     final ThemeData theme = ThemeData();
     return 
     
@@ -26,6 +33,21 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'BloodDonation',
       theme: ThemeData(
+
+
+textButtonTheme: TextButtonThemeData(
+              style: ButtonStyle(
+                animationDuration: Duration(microseconds: 2000),
+                overlayColor: MaterialStateProperty.all(
+                  Color(0xfff1908c),
+                ),
+                backgroundColor: MaterialStateProperty.all(
+                  Color(0xff506eda),
+                ),
+              ),
+            ),
+
+
         colorScheme: theme.colorScheme.copyWith(
           secondary: Color(0xfff1908c),
           primary: Colors.white,

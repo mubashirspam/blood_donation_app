@@ -26,6 +26,9 @@ class _OptionState extends State<Option> {
       child: ListView(
         children: <Widget>[
           UserAccountsDrawerHeader(
+            decoration:
+                BoxDecoration(color: Theme.of(context).colorScheme.secondary),
+            arrowColor: Colors.amber,
             accountName: Text("Grama Phone Blood App"),
             accountEmail: Text("${user?.email}"),
             currentAccountPicture: Container(
@@ -41,11 +44,11 @@ class _OptionState extends State<Option> {
           ListTile(
             title: Text(
               'Home Page',
-              style: TextStyle(color: Colors.black),
+              style: Theme.of(context).textTheme.bodyText1,
             ),
             leading: Icon(
               Icons.home,
-              color: Colors.black,
+              color: Theme.of(context).colorScheme.onPrimary,
             ),
             onTap: () {
               Navigator.pushReplacementNamed(context, route.homePage);
@@ -56,11 +59,11 @@ class _OptionState extends State<Option> {
           ListTile(
             title: Text(
               'Ask A Doubt',
-              style: TextStyle(color: Colors.black),
+              style: Theme.of(context).textTheme.bodyText1,
             ),
             leading: Icon(
               Icons.question_answer,
-              color: Colors.black,
+              color: Theme.of(context).colorScheme.onPrimary,
             ),
             onTap: () {
               _launchInBrowser(
@@ -70,11 +73,11 @@ class _OptionState extends State<Option> {
           ListTile(
             title: Text(
               'About US',
-              style: TextStyle(color: Colors.black),
+              style: Theme.of(context).textTheme.bodyText1,
             ),
             leading: Icon(
               Icons.info,
-              color: Colors.black,
+              color: Theme.of(context).colorScheme.onPrimary,
             ),
             onTap: () {
               Navigator.push(context,

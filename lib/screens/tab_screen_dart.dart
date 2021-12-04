@@ -55,6 +55,7 @@ class _TabScreenState extends State<TabScreen> {
         title: Text(_pages[_selectedIndex]['title'] as String),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        elevation: 10,
         onTap: _selectPage,
         currentIndex: _selectedIndex,
         selectedItemColor: Theme.of(context).colorScheme.secondary,

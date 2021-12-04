@@ -49,6 +49,9 @@ class _AdmminLoginScreenState extends State<AdmminLoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+      ),
       body: SafeArea(
         child: Container(
           width: double.infinity,
@@ -161,8 +164,8 @@ class _AdmminLoginScreenState extends State<AdmminLoginScreen> {
                             ),
                             style: TextButton.styleFrom(
                                 minimumSize: Size(double.infinity, 55),
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.onPrimary),
+                                
+                                   ),
                           ),
                         ),
                       ],

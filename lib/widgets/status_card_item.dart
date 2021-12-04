@@ -42,9 +42,10 @@ class StatusCardItem extends StatelessWidget {
               'Do you want to delete ?',
             ),
             elevation: 4,
-            backgroundColor: Colors.white,
+       
             actions: [
               TextButton(
+                style: TextButton.styleFrom(backgroundColor: Colors.white),
                   onPressed: () {
                     Navigator.of(ctx).pop(false);
                   },
@@ -53,6 +54,7 @@ class StatusCardItem extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyText1,
                   )),
               TextButton(
+                style: TextButton.styleFrom(backgroundColor: Colors.white),
                   onPressed: () {
                     Navigator.of(ctx).pop(true);
                   },

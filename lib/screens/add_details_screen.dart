@@ -241,7 +241,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                 ),
                 style: TextButton.styleFrom(
                     minimumSize: Size(double.infinity, 55),
-                    backgroundColor: Theme.of(context).colorScheme.onPrimary),
+                    ),
               ),
             ),
           ],
