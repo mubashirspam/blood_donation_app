@@ -1,4 +1,4 @@
-import 'package:blood_donation/screens/add_details_screen.dart';
+import 'package:blood_donation/screens/applay_screen.dart';
 import 'package:blood_donation/screens/home_screen.dart';
 
 import 'package:blood_donation/screens/profile_screen.dart';
@@ -23,9 +23,10 @@ class _TabScreenState extends State<TabScreen> {
       'title': 'HomeScreen',
     },
     {
-      'page': AddDetailsScreen(),
-      'title': 'Add Person',
+      'page': ApplayScreen(),
+      'title': 'Applay New',
     },
+
     {
       'page': StatusScreen(),
       'title': 'Application Status',
@@ -45,6 +46,8 @@ class _TabScreenState extends State<TabScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
+      
       drawer: Option(),
       body: _pages[_selectedIndex]['page'] as Widget,
       appBar: AppBar(
@@ -64,10 +67,11 @@ class _TabScreenState extends State<TabScreen> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
+            
             icon: Icon(
-              Icons.add_outlined,
+              Icons.add_chart,
             ),
-            label: 'Settings',
+            label: 'Form',
           ),
           BottomNavigationBarItem(
             icon: Icon(

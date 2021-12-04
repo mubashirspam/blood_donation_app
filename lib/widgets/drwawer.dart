@@ -87,11 +87,11 @@ class _OptionState extends State<Option> {
           ListTile(
             title: Text(
               'Rate Us',
-              style: TextStyle(color: Colors.blue),
+              style: Theme.of(context).textTheme.headline4,
             ),
             leading: Icon(
               Icons.shop,
-              color: Colors.blue,
+              color: Theme.of(context).colorScheme.secondary,
             ),
             onTap: () {
               _launchInBrowser('https://play.google.com/store/apps/details');
@@ -100,11 +100,11 @@ class _OptionState extends State<Option> {
           ListTile(
               title: Text(
                 'Log out',
-                style: TextStyle(color: Colors.blue),
+                style: Theme.of(context).textTheme.headline4,
               ),
               leading: Icon(
                 Icons.logout,
-                color: Colors.blue,
+                color: Theme.of(context).colorScheme.secondary,
               ),
               onTap: () async {
                 setState(() {

@@ -1,4 +1,5 @@
 
+import 'package:blood_donation/screens/add_details_screen.dart';
 import 'package:blood_donation/services/blood_cards.dart';
 import 'package:blood_donation/services/blood_status_card.dart';
 import 'package:provider/provider.dart';
@@ -55,28 +56,30 @@ class MyApp extends StatelessWidget {
                 color: Color(0xff506eda),
                 fontWeight: FontWeight.w500,
                 fontFamily: 'Poppins',
-              ),headline2: TextStyle(
-                fontSize: 18
+              ),
+              
+              headline2: TextStyle(
+                fontSize: 16
           ,
                 color: Color(0xff506eda),
                 fontWeight: FontWeight.w600,
                 fontFamily: 'Poppins',
               ),
+
+               headline4: TextStyle(
+                    color: Color(0xfff1908c),
+                    fontSize: 16,
+                    fontFamily: 'Poppins',
+                  ),
         
         ),
         
-        // routes: {
-        //   '/': (ctx) => TabScreen(),
-        //   HomeScreen.routName: (ctx) => HomeScreen(),
-        //   AddDetailsScreen.routName: (ctx) => AddDetailsScreen(),
-        // },
+       
       ),
       // initialRoute: '/',
-      // routes: {
-      //   '/': (ctx) => TabScreen(),
-      //   HomeScreen.routName: (ctx) => HomeScreen(),
-      //   AddDetailsScreen.routName: (ctx) => AddDetailsScreen(),
-      // },
+      routes: {
+            AddDetailsScreen.routName: (ctx) => AddDetailsScreen(),
+          },
   
       onGenerateRoute: route.controller,
       initialRoute: route.loginPage,

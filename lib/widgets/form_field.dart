@@ -8,6 +8,9 @@ Widget BuildTextField(
     FormFieldValidator formFieldValidator,
     FormFieldSetter formFieldSetter,
     bool obscureText,
+    // TextEditingController? textEditingController,
+    
+    
   
 
   ) =>
@@ -22,6 +25,7 @@ Widget BuildTextField(
           color: Color(0xfff6f7fa),
         ),
         child: TextFormField(
+          // controller:textEditingController,
           
           obscureText: obscureText,
           initialValue: initialValue,

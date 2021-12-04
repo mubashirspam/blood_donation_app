@@ -27,7 +27,9 @@ class BloodStatusCards with ChangeNotifier {
   List<StatusCard> get item {
     return [..._items];
   }
-  
+  StatusCard findById(String id) {
+    return _items.firstWhere((card) => card.id == id);
+  }
 
   void addCard(StatusCard bloodCard) {
     final newBloodCard = StatusCard(
@@ -43,6 +45,18 @@ class BloodStatusCards with ChangeNotifier {
 
     notifyListeners();
   }
+
+
+  void updateCard(String id, StatusCard newBloodCard) {
+    final cardIndex = _items.indexWhere((element) => element.id == id);
+    if (cardIndex >= 0) {
+      _items[cardIndex] = newBloodCard;
+      notifyListeners();
+    } else {
+      print('.....');
+    }
+  }
+
 void deleteCard(String id) {
     _items.removeWhere((element) => element.id == id);
     notifyListeners();

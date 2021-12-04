@@ -1,6 +1,9 @@
+
+import 'package:blood_donation/screens/add_details_screen.dart';
 import 'package:blood_donation/services/blood_status_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '/services/route.dart' as route;
 
 class StatusCardItem extends StatelessWidget {
   final String id;
@@ -9,13 +12,16 @@ class StatusCardItem extends StatelessWidget {
   final double contact;
   final double age;
   final String bloodGrupe;
+  final String nameInMalayalam;
 
   const StatusCardItem(
+    
     this.id,
     this.name,
     this.age,
     this.contact,
     this.bloodGrupe,
+    this.nameInMalayalam,
 
     // this.cardId
   );
@@ -64,7 +70,7 @@ class StatusCardItem extends StatelessWidget {
           color: Colors.white,
           size: 40,
         ),
-        color: Theme.of(context).errorColor,
+        color: Theme.of(context).colorScheme.secondary,
         margin: EdgeInsets.symmetric(
           vertical: 4,
           horizontal: 15,
@@ -80,18 +86,28 @@ class StatusCardItem extends StatelessWidget {
           padding: EdgeInsets.all(5),
           child: ListTile(
             leading: CircleAvatar(
-              child: FittedBox(fit: BoxFit.cover, child: Text("gg")),
+              child: FittedBox(fit: BoxFit.cover, child: Text("O +ve")),
             ),
             title: Text(
               name,
               style: Theme.of(context).textTheme.headline3,
             ),
             subtitle: Text(
-              contact.toString(),
+              nameInMalayalam,
               style: Theme.of(context).textTheme.bodyText1,
             ),
-            trailing: Text('Age :${age.toString()}',
-                style: Theme.of(context).textTheme.headline3),
+            trailing: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(
+                      AddDetailsScreen.routName,arguments: id
+                    );
+                  },
+                  icon: Icon(
+                    Icons.edit,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ))
+              // Text('Age :${age.toString()}',
+              //     style: Theme.of(context).textTheme.headline3),
           ),
         ),
       ),
