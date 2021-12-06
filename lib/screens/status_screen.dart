@@ -14,7 +14,11 @@ class StatusScreen extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final bloodStatusCardData = Provider.of<BloodStatusCards>(context);
     return Scaffold(
-        body: Container(
+        body:
+        
+        
+        
+         Container(
       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       width: double.infinity,
       height: double.infinity,

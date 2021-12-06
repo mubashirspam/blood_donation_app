@@ -3,7 +3,7 @@ import 'package:blood_donation/screens/add_details_screen.dart';
 import 'package:blood_donation/services/blood_status_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '/services/route.dart' as route;
+
 
 class StatusCardItem extends StatelessWidget {
   final String id;

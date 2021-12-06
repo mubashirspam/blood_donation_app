@@ -1,5 +1,9 @@
 
+
 import 'package:flutter/material.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class StatusCard {
   final String id;
@@ -27,13 +31,27 @@ class BloodStatusCards with ChangeNotifier {
   List<StatusCard> get item {
     return [..._items];
   }
+
   StatusCard findById(String id) {
     return _items.firstWhere((card) => card.id == id);
   }
 
-  void addCard(StatusCard bloodCard) {
-    final newBloodCard = StatusCard(
-        id: DateTime.now().toString(),
+  Future<void> addCard(StatusCard bloodCard) async {
+    CollectionReference users =
+        FirebaseFirestore.instance.collection('BloodStatusCards');
+    try {
+      final response = await users.add(
+        {
+          'name': bloodCard.name,
+          'nameInMalayam': bloodCard.nameInMalayam,
+          'contact': bloodCard.contact,
+          'gender': bloodCard.gender,
+          'age': bloodCard.age,
+          'bloodGrupe': bloodCard.bloodGrupe,
+        },
+      );
+      final newBloodCard = StatusCard(
+        id: response.id,
         name: bloodCard.name,
         contact: bloodCard.contact,
         gender: bloodCard.gender,
@@ -44,8 +62,12 @@ class BloodStatusCards with ChangeNotifier {
     _items.add(newBloodCard);
 
     notifyListeners();
-  }
+    } catch (error) {
+      throw error;
+    }
 
+    
+  }
 
   void updateCard(String id, StatusCard newBloodCard) {
     final cardIndex = _items.indexWhere((element) => element.id == id);
@@ -57,9 +79,8 @@ class BloodStatusCards with ChangeNotifier {
     }
   }
 
-void deleteCard(String id) {
+  void deleteCard(String id) {
     _items.removeWhere((element) => element.id == id);
     notifyListeners();
   }
-  
 }
