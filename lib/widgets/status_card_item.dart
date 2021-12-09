@@ -88,7 +88,20 @@ class StatusCardItem extends StatelessWidget {
           padding: EdgeInsets.all(5),
           child: ListTile(
             leading: CircleAvatar(
-              child: FittedBox(fit: BoxFit.cover, child: Text("O +ve")),
+              maxRadius: 25,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: Text(
+                        'o+ve',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      )),
+                ),
             ),
             title: Text(
               name,

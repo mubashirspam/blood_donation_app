@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+
 import 'dart:ui';
 
 import 'package:blood_donation/services/blood_status_card.dart';
@@ -30,8 +31,8 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
     'O -ve'
   ];
   List<String> gender = ['Male', 'Female', 'Othor'];
-  final myController = TextEditingController(text: "Your initial value");
 
+  String gggg = '';
   var _editBloodCard = StatusCard(
     id: '',
     name: '',
@@ -46,6 +47,8 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
     'age': '',
     'nameInMalayalam': '',
     'contact': '',
+    'gender': '',
+    'bloodGrupe': '',
   };
 
   var _isLoading = false;
@@ -120,7 +123,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
         });
         Navigator.of(context).pop();
       }
-    } 
+    }
   }
   // @override
   // void dispose() {
@@ -260,10 +263,34 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                           // myController,
                         ),
                         dropDown(
+                            onChangedFunction: (value) => setState(() {
+                                  _editBloodCard = StatusCard(
+                                      gender: _editBloodCard.gender,
+                                      age: _editBloodCard.age,
+                                      bloodGrupe: value.toString(),
+                                      id: _editBloodCard.id,
+                                      name: _editBloodCard.name,
+                                      contact: _editBloodCard.contact,
+                                      nameInMalayam:
+                                          _editBloodCard.nameInMalayam);
+                                  bloodvalue = value;
+                                }),
                             context: context,
                             valueb: bloodvalue,
                             myList: blodGroup),
                         dropDown(
+                            onChangedFunction: (value) => setState(() {
+                                  _editBloodCard = StatusCard(
+                                      gender: value.toString(),
+                                      age: _editBloodCard.age,
+                                      bloodGrupe: _editBloodCard.bloodGrupe,
+                                      id: _editBloodCard.id,
+                                      name: _editBloodCard.name,
+                                      contact: _editBloodCard.contact,
+                                      nameInMalayam:
+                                          _editBloodCard.nameInMalayam);
+                                  gengervalue = value;
+                                }),
                             context: context,
                             valueb: gengervalue,
                             myList: gender)
@@ -283,6 +310,10 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                       ),
                     ),
                   ),
+                  Text(
+                    gengervalue == null ? 'ddd' : gengervalue.toString(),
+                    style: Theme.of(context).textTheme.headline1,
+                  ),
                 ],
               ),
             ),
@@ -291,6 +322,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
 
   Container dropDown(
       {required BuildContext context,
+      required void Function(String?) onChangedFunction,
       required String? valueb,
       required List<String> myList}) {
     return Container(
@@ -307,18 +339,14 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
         ),
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
-            iconSize: 30,
-            items: myList.map(buildmenuItem).toList(),
-            icon: Icon(
-              Icons.arrow_drop_down,
-              color: Color(0xff4058AE),
-            ),
-            // value: valueb == null ? myList[0] : valueb,
-            value: valueb,
-            onChanged: (String? value) => setState(() {
-              valueb = value!;
-            }),
-          ),
+              iconSize: 30,
+              items: myList.map(buildmenuItem).toList(),
+              icon: Icon(
+                Icons.arrow_drop_down,
+                color: Color(0xff4058AE),
+              ),
+              value: valueb == null ? myList[0] : valueb,
+              onChanged: onChangedFunction),
         ));
   }
 
@@ -333,3 +361,9 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
     );
   }
 }
+
+// 'gender': gengervalue == null ? gender[0] : '$gengervalue',
+
+//  (String? value) => setState(() {
+//               valueb = value!;
+//             }),

@@ -1,9 +1,6 @@
-
-
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 
 class StatusCard {
   final String id;
@@ -27,6 +24,7 @@ class StatusCard {
 }
 
 class BloodStatusCards with ChangeNotifier {
+
   List<StatusCard> _items = [];
   List<StatusCard> get item {
     return [..._items];
@@ -34,6 +32,40 @@ class BloodStatusCards with ChangeNotifier {
 
   StatusCard findById(String id) {
     return _items.firstWhere((card) => card.id == id);
+  }
+   
+
+  
+
+  Future<void> fetchAndSetProducts() async {
+   
+    CollectionReference users =
+        FirebaseFirestore.instance.collection('BloodStatusCards');
+
+    try {
+      String documentId='';
+      final response = await users.doc(documentId).get();
+      final Map<String, dynamic>  extractedData =  response.data() as Map<String, dynamic>;
+      final List<StatusCard> loadedData = [];
+      extractedData.forEach((cardId, cardData) {
+        loadedData.add(
+          StatusCard(
+            id: cardId,
+            name: cardData['name'],
+            nameInMalayam: cardData["nameInMalayam"],
+            age: cardData["age"],
+            contact: cardData["contact"],
+            gender: cardData['gender'],
+            bloodGrupe: cardData['bloodGrupe'],
+          ),
+        );
+      });
+      _items = loadedData;
+      notifyListeners();
+    } catch (error) {
+      print(error);
+     throw error;
+    }
   }
 
   Future<void> addCard(StatusCard bloodCard) async {
@@ -51,22 +83,20 @@ class BloodStatusCards with ChangeNotifier {
         },
       );
       final newBloodCard = StatusCard(
-        id: response.id,
-        name: bloodCard.name,
-        contact: bloodCard.contact,
-        gender: bloodCard.gender,
-        nameInMalayam: bloodCard.nameInMalayam,
-        age: bloodCard.age,
-        bloodGrupe: bloodCard.bloodGrupe);
+          id: response.id,
+          name: bloodCard.name,
+          contact: bloodCard.contact,
+          gender: bloodCard.gender,
+          nameInMalayam: bloodCard.nameInMalayam,
+          age: bloodCard.age,
+          bloodGrupe: bloodCard.bloodGrupe);
 
-    _items.add(newBloodCard);
+      _items.add(newBloodCard);
 
-    notifyListeners();
+      notifyListeners();
     } catch (error) {
       throw error;
     }
-
-    
   }
 
   void updateCard(String id, StatusCard newBloodCard) {
@@ -84,3 +114,28 @@ class BloodStatusCards with ChangeNotifier {
     notifyListeners();
   }
 }
+
+// Widget build(BuildContext context) {
+//   CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+//   return FutureBuilder<DocumentSnapshot>(
+//     future: users.doc(documentId).get(),
+//     builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+//       if (snapshot.hasError) {
+//         return Text("Something went wrong");
+//       }
+
+//       if (snapshot.hasData && !snapshot.data!.exists) {
+//         return Text("Document does not exist");
+//       }
+
+//       if (snapshot.connectionState == ConnectionState.done) {
+//         Map<String, dynamic> data =
+//             snapshot.data!.data() as Map<String, dynamic>;
+//         return Text("Full Name: ${data['full_name']} ${data['last_name']}");
+//       }
+
+//       return Text("loading");
+//     },
+//   );
+// }
