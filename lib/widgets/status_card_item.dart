@@ -94,8 +94,8 @@ class StatusCardItem extends StatelessWidget {
                   padding: const EdgeInsets.all(4.0),
                   child: FittedBox(
                       fit: BoxFit.cover,
-                      child: Text(
-                        'o+ve',
+                      child: bloodGrupe.isEmpty? Text('Grupe'): Text(
+                        bloodGrupe,
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,

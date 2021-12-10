@@ -1,13 +1,13 @@
 // ignore_for_file: deprecated_member_use
 
 
-import 'dart:ui';
+
 
 import 'package:blood_donation/services/blood_status_card.dart';
 import 'package:blood_donation/widgets/form_field.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:provider/provider.dart';
 
 class AddDetailsScreen extends StatefulWidget {
@@ -117,12 +117,12 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
             ],
           ),
         );
-      } finally {
+      } 
         setState(() {
           _isLoading = false;
         });
         Navigator.of(context).pop();
-      }
+      
     }
   }
   // @override

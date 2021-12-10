@@ -24,7 +24,8 @@ class StatusCard {
 }
 
 class BloodStatusCards with ChangeNotifier {
-
+  CollectionReference users =
+      FirebaseFirestore.instance.collection('BloodStatusCards');
   List<StatusCard> _items = [];
   List<StatusCard> get item {
     return [..._items];
@@ -33,44 +34,44 @@ class BloodStatusCards with ChangeNotifier {
   StatusCard findById(String id) {
     return _items.firstWhere((card) => card.id == id);
   }
-   
-
-  
 
   Future<void> fetchAndSetProducts() async {
-   
-    CollectionReference users =
-        FirebaseFirestore.instance.collection('BloodStatusCards');
+    // CollectionReference users =
+    //     FirebaseFirestore.instance.collection('BloodStatusCards');
 
     try {
-      String documentId='';
-      final response = await users.doc(documentId).get();
-      final Map<String, dynamic>  extractedData =  response.data() as Map<String, dynamic>;
       final List<StatusCard> loadedData = [];
-      extractedData.forEach((cardId, cardData) {
-        loadedData.add(
-          StatusCard(
-            id: cardId,
-            name: cardData['name'],
-            nameInMalayam: cardData["nameInMalayam"],
-            age: cardData["age"],
-            contact: cardData["contact"],
-            gender: cardData['gender'],
-            bloodGrupe: cardData['bloodGrupe'],
-          ),
-        );
+      var response = await users.get().then((value) => value.docs);
+
+      // print('-------------------------------');
+
+      response.forEach((element) {
+        Map<String, dynamic> data = element.data() as Map<String, dynamic>;
+
+        // print(" data : ${element.data()}");
+        // print(" id : ${element.id}");
+
+        loadedData.add(StatusCard(
+          id: element.id,
+          name: data['name'],
+          nameInMalayam: data["nameInMalayam"],
+          age: data["age"],
+          contact: data["contact"],
+          gender: data['gender'],
+          bloodGrupe: data['bloodGrupe'],
+        ));
       });
+
       _items = loadedData;
       notifyListeners();
     } catch (error) {
       print(error);
-     throw error;
+      // return;
+      throw error;
     }
   }
 
   Future<void> addCard(StatusCard bloodCard) async {
-    CollectionReference users =
-        FirebaseFirestore.instance.collection('BloodStatusCards');
     try {
       final response = await users.add(
         {
@@ -99,9 +100,27 @@ class BloodStatusCards with ChangeNotifier {
     }
   }
 
-  void updateCard(String id, StatusCard newBloodCard) {
+  Future<void> updateCard(String id, StatusCard newBloodCard) async {
     final cardIndex = _items.indexWhere((element) => element.id == id);
+    print("-----id---- : ${id}");
     if (cardIndex >= 0) {
+      await users
+          .doc(id)
+          .update(
+            {
+              'name': newBloodCard.name,
+              'nameInMalayam': newBloodCard.nameInMalayam,
+              'contact': newBloodCard.contact,
+              'gender': newBloodCard.gender,
+              'age': newBloodCard.age,
+              'bloodGrupe': newBloodCard.bloodGrupe,
+            },
+          )
+          .then((value) => print("User Updated"))
+          .catchError(
+            (error) => print("Failed to update user: $error"),
+          );
+
       _items[cardIndex] = newBloodCard;
       notifyListeners();
     } else {
@@ -110,10 +129,21 @@ class BloodStatusCards with ChangeNotifier {
   }
 
   void deleteCard(String id) {
-    _items.removeWhere((element) => element.id == id);
+    final existingCardIndex = _items.indexWhere((element) => element.id == id);
+    StatusCard? existingCard = _items[existingCardIndex];
+    _items.removeAt(existingCardIndex);
     notifyListeners();
+    users.doc(id).delete().then((_) => existingCard = null).catchError((_) {
+      _items.insert(
+        existingCardIndex,
+        existingCard!,
+      );
+      notifyListeners();
+    });
   }
 }
+
+
 
 // Widget build(BuildContext context) {
 //   CollectionReference users = FirebaseFirestore.instance.collection('users');
