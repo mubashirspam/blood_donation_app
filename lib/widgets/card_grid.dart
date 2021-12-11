@@ -19,7 +19,9 @@ class StatusGrid extends StatelessWidget {
       ),
       itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
         value: cards[i],
-        child: BloodCardItem(),
+        child: BloodCardItem(
+          cards[i].id,
+        ),
       ),
     );
   }
