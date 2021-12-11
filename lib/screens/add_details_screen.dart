@@ -1,8 +1,5 @@
 // ignore_for_file: deprecated_member_use
 
-
-
-
 import 'package:blood_donation/services/blood_status_card.dart';
 import 'package:blood_donation/widgets/form_field.dart';
 
@@ -17,6 +14,8 @@ class AddDetailsScreen extends StatefulWidget {
 }
 
 class _AddDetailsScreenState extends State<AddDetailsScreen> {
+  bool isAdmin = true;
+
   final _formKey = GlobalKey<FormState>();
   String? bloodvalue;
   String? gengervalue;
@@ -32,7 +31,6 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
   ];
   List<String> gender = ['Male', 'Female', 'Othor'];
 
-  String gggg = '';
   var _editBloodCard = StatusCard(
     id: '',
     name: '',
@@ -41,6 +39,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
     nameInMalayam: '',
     contact: 0,
     gender: '',
+    isApproved: false,
   );
   var _initValue = {
     "name": '',
@@ -117,12 +116,11 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
             ],
           ),
         );
-      } 
-        setState(() {
-          _isLoading = false;
-        });
-        Navigator.of(context).pop();
-      
+      }
+      setState(() {
+        _isLoading = false;
+      });
+      Navigator.of(context).pop();
     }
   }
   // @override
@@ -134,16 +132,18 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        title: Text('Add Details'),
       ),
       body: _isLoading
           ? Center(
               child: CircularProgressIndicator(),
             )
           : Container(
-              padding: EdgeInsets.all(30),
+              padding: EdgeInsets.all(25),
               child: ListView(
                 children: [
                   Form(
@@ -297,6 +297,62 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                       ],
                     ),
                   ),
+
+                  // isAdmin
+                  //     ?
+
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: TextButton(
+                            onPressed: () {
+                            
+                                 _editBloodCard.toggleFavoriteStatus();
+                              
+
+                              _saveForm;
+
+                              Navigator.of(context).pop();
+                              // card.toggleFavoriteStatus();
+                            },
+                            child: Text(
+                              'Approve',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            style: TextButton.styleFrom(
+                              minimumSize: Size(width * 0.5 - 32, 55),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: TextButton(
+                            onPressed: () {
+                              Provider.of<BloodStatusCards>(context,
+                                      listen: false)
+                                  .deleteCard(_editBloodCard.id);
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              'Reject',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            style: TextButton.styleFrom(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.secondary,
+                              minimumSize: Size(width * 0.5 - 32, 55),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // :
+
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
                     child: TextButton(
@@ -309,10 +365,6 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                         minimumSize: Size(double.infinity, 55),
                       ),
                     ),
-                  ),
-                  Text(
-                    gengervalue == null ? 'ddd' : gengervalue.toString(),
-                    style: Theme.of(context).textTheme.headline1,
                   ),
                 ],
               ),

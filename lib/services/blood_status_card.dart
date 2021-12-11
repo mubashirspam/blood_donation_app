@@ -2,25 +2,42 @@ import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class StatusCard {
+class StatusCard with ChangeNotifier {
   final String id;
   final String name;
   final double contact;
   final double age;
   final String bloodGrupe;
   final String nameInMalayam;
-
   final String gender;
+  bool isApproved;
 
-  StatusCard({
-    required this.gender,
-    required this.age,
-    required this.bloodGrupe,
-    required this.id,
-    required this.name,
-    required this.contact,
-    required this.nameInMalayam,
-  });
+  StatusCard(
+      {required this.gender,
+      required this.age,
+      required this.bloodGrupe,
+      required this.id,
+      required this.name,
+      required this.contact,
+      required this.nameInMalayam,
+      this.isApproved = false});
+
+  Future<void> toggleFavoriteStatus() async {
+    final oldStatus = false;
+
+    notifyListeners();
+    CollectionReference users =
+        FirebaseFirestore.instance.collection('BloodStatusCards');
+
+    try {
+      await users.doc(id).update({"isApproved": !isApproved});
+    } catch (e) {
+      isApproved = oldStatus;
+
+      print(e);
+      notifyListeners();
+    }
+  }
 }
 
 class BloodStatusCards with ChangeNotifier {
@@ -29,6 +46,14 @@ class BloodStatusCards with ChangeNotifier {
   List<StatusCard> _items = [];
   List<StatusCard> get item {
     return [..._items];
+  }
+
+  List<StatusCard> get approvedItems {
+    return _items.where((cardItem) => cardItem.isApproved).toList();
+  }
+
+  List<StatusCard> get notapprovedItems {
+    return _items.where((cardItem) => cardItem.isApproved == false).toList();
   }
 
   StatusCard findById(String id) {
@@ -43,23 +68,22 @@ class BloodStatusCards with ChangeNotifier {
       final List<StatusCard> loadedData = [];
       var response = await users.get().then((value) => value.docs);
 
-      // print('-------------------------------');
+     
 
       response.forEach((element) {
         Map<String, dynamic> data = element.data() as Map<String, dynamic>;
 
-        // print(" data : ${element.data()}");
-        // print(" id : ${element.id}");
+        
 
         loadedData.add(StatusCard(
-          id: element.id,
-          name: data['name'],
-          nameInMalayam: data["nameInMalayam"],
-          age: data["age"],
-          contact: data["contact"],
-          gender: data['gender'],
-          bloodGrupe: data['bloodGrupe'],
-        ));
+            id: element.id,
+            name: data['name'],
+            nameInMalayam: data["nameInMalayam"],
+            age: data["age"],
+            contact: data["contact"],
+            gender: data['gender'],
+            bloodGrupe: data['bloodGrupe'],
+            isApproved: data['isApproved']));
       });
 
       _items = loadedData;
@@ -81,6 +105,7 @@ class BloodStatusCards with ChangeNotifier {
           'gender': bloodCard.gender,
           'age': bloodCard.age,
           'bloodGrupe': bloodCard.bloodGrupe,
+          'isApproved': bloodCard.isApproved,
         },
       );
       final newBloodCard = StatusCard(
@@ -90,7 +115,8 @@ class BloodStatusCards with ChangeNotifier {
           gender: bloodCard.gender,
           nameInMalayam: bloodCard.nameInMalayam,
           age: bloodCard.age,
-          bloodGrupe: bloodCard.bloodGrupe);
+          bloodGrupe: bloodCard.bloodGrupe,
+          isApproved: bloodCard.isApproved);
 
       _items.add(newBloodCard);
 
@@ -142,30 +168,3 @@ class BloodStatusCards with ChangeNotifier {
     });
   }
 }
-
-
-
-// Widget build(BuildContext context) {
-//   CollectionReference users = FirebaseFirestore.instance.collection('users');
-
-//   return FutureBuilder<DocumentSnapshot>(
-//     future: users.doc(documentId).get(),
-//     builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-//       if (snapshot.hasError) {
-//         return Text("Something went wrong");
-//       }
-
-//       if (snapshot.hasData && !snapshot.data!.exists) {
-//         return Text("Document does not exist");
-//       }
-
-//       if (snapshot.connectionState == ConnectionState.done) {
-//         Map<String, dynamic> data =
-//             snapshot.data!.data() as Map<String, dynamic>;
-//         return Text("Full Name: ${data['full_name']} ${data['last_name']}");
-//       }
-
-//       return Text("loading");
-//     },
-//   );
-// }

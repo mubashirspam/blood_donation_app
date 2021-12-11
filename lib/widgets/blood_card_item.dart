@@ -1,13 +1,16 @@
-import 'package:blood_donation/services/blood_card.dart';
+
+import 'package:blood_donation/services/blood_status_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BloodCardItem extends StatelessWidget {
-  const BloodCardItem({Key? key}) : super(key: key);
+  
 
   @override
   Widget build(BuildContext context) {
-    final bloodCardData = Provider.of<BloodCard>(context, listen: false);
+    final bloodCardData = Provider.of<StatusCard>(context, listen: false);
+    
+    
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: GridTile(
@@ -38,7 +41,7 @@ class BloodCardItem extends StatelessWidget {
                           child: Column(
                             children: [
                               Text(
-                                bloodCardData.bloodGroup,
+                                bloodCardData.bloodGrupe,
                                 style: Theme.of(context).textTheme.headline3,
                                 
                               ),
