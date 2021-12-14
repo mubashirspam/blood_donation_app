@@ -298,8 +298,8 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                     ),
                   ),
 
-                  isAdmin
-                      ?
+                  // isAdmin
+                  //     ?
 
                   Container(
                     child: Row(
@@ -349,9 +349,9 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                         ),
                       ],
                     ),
-                        )
+                        ),
 
-                      :
+                      // :
 
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
