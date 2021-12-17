@@ -7,12 +7,28 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:412986527136:android:5526ea74a513aca8fce8c5",
+        "mobilesdk_app_id": "1:412986527136:android:8f03046466a5768efce8c5",
         "android_client_info": {
-          "package_name": "com.example.blood_donation"
+          "package_name": "com.gramaphone.blood"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "412986527136-3giniqu1hohh9ofmsj7dasr1d2rqhkbk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gramaphone.blood",
+            "certificate_hash": "6350a2ea68dac973ad0d3efc1bff7d71523f3c8b"
+          }
+        },
+        {
+          "client_id": "412986527136-3qdlv3s7c1h7er0vi4anr2qgbb145aem.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gramaphone.blood",
+            "certificate_hash": "21fb7cc5b1ea6ef5266e7b8d3d70440c53548cee"
+          }
+        },
         {
           "client_id": "412986527136-uj0coiech5fqksrarte8llfqcsk0mcva.apps.googleusercontent.com",
           "client_type": 3

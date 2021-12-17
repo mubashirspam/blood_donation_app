@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.blood_donation">
+    package="com.gramaphone.blood">
    <application
         android:label="blood_donation"
         android:icon="@mipmap/ic_launcher">
