@@ -1,10 +1,9 @@
 
 import 'package:blood_donation/screens/add_details_screen.dart';
-import 'package:blood_donation/services/blood_cards.dart';
+
 import 'package:blood_donation/services/blood_status_card.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-
 import './services/route.dart' as route;
 import 'package:flutter/material.dart';
 void main() {
@@ -26,8 +25,8 @@ class MyApp extends StatelessWidget {
     return 
     
     MultiProvider(providers: [
-      ChangeNotifierProvider(create: (ctx)=>BloodCards())
-    ,ChangeNotifierProvider(create: (ctx)=>BloodStatusCards(),)],
+      
+    ChangeNotifierProvider(create: (ctx)=>BloodStatusCards(),)],
     child:
      MaterialApp(
       debugShowCheckedModeBanner: false,

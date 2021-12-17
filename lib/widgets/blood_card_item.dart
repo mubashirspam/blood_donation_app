@@ -1,18 +1,61 @@
-import 'package:blood_donation/services/blood_card.dart';
+import 'package:blood_donation/services/blood_status_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BloodCardItem extends StatelessWidget {
-  const BloodCardItem({Key? key}) : super(key: key);
+  final String id;
+
+  BloodCardItem(
+    this.id,
+  );
+  final bool showAppr = false;
+  bool isAdmin = true;
 
   @override
   Widget build(BuildContext context) {
-    final bloodCardData = Provider.of<BloodCard>(context, listen: false);
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
-      child: GridTile(
-        child: InkWell(
-          onTap: () {},
+    final bloodCardData = Provider.of<StatusCard>(context, listen: false);
+
+    return InkWell(
+      highlightColor: Colors.red,
+      onLongPress: isAdmin
+          ? () {
+              showDialog(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  title: Text('Are Yuo sure?'),
+                  content: Text(
+                    'Do you want to delete ?',
+                  ),
+                  elevation: 4,
+                  actions: [
+                    TextButton(
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.white),
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                        child: Text(
+                          'No',
+                          style: Theme.of(context).textTheme.bodyText1,
+                        )),
+                    TextButton(
+                        style:
+                            TextButton.styleFrom(backgroundColor: Colors.white),
+                        onPressed: () {
+                          Provider.of<BloodStatusCards>(context, listen: false)
+                              .deleteCard(id);
+                          Navigator.of(ctx).pop();
+                        },
+                        child: Text('Yes',
+                            style: Theme.of(context).textTheme.bodyText1))
+                  ],
+                ),
+              );
+            }
+          : () {},
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: GridTile(
           child: Container(
             padding: EdgeInsets.only(top: 15),
             decoration: BoxDecoration(
@@ -38,9 +81,8 @@ class BloodCardItem extends StatelessWidget {
                           child: Column(
                             children: [
                               Text(
-                                bloodCardData.bloodGroup,
+                                bloodCardData.bloodGrupe,
                                 style: Theme.of(context).textTheme.headline3,
-                                
                               ),
                               Container(
                                 margin: EdgeInsets.symmetric(vertical: 3),
@@ -58,7 +100,6 @@ class BloodCardItem extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      
                       // color: Colors.red,
                       margin: EdgeInsets.all(20),
                       height: 70,
@@ -90,36 +131,36 @@ class BloodCardItem extends StatelessWidget {
               ],
             ),
           ),
-        ),
-        footer: GridTileBar(
-          title: SizedBox(),
-          backgroundColor: Theme.of(context).colorScheme.onPrimary,
-          leading: TextButton.icon(
-              onPressed: () {},
-              icon: Icon(
-                Icons.message,
-                color: Colors.white,
-              ),
-              label: Text(
-                "Message",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700),
-              )),
-          trailing: TextButton.icon(
-              onPressed: () {},
-              icon: Icon(
-                Icons.call,
-                color: Colors.white,
-              ),
-              label: Text(
-                "Call",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700),
-              )),
+          footer: GridTileBar(
+            title: SizedBox(),
+            backgroundColor: Theme.of(context).colorScheme.onPrimary,
+            leading: TextButton.icon(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.message,
+                  color: Colors.white,
+                ),
+                label: Text(
+                  "Message",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700),
+                )),
+            trailing: TextButton.icon(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.call,
+                  color: Colors.white,
+                ),
+                label: Text(
+                  "Call",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700),
+                )),
+          ),
         ),
       ),
     );

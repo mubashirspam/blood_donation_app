@@ -1,6 +1,6 @@
 import 'package:blood_donation/screens/add_details_screen.dart';
 import 'package:flutter/material.dart';
-import '/services/route.dart' as route;
+
 
 class ApplayScreen extends StatelessWidget {
   
@@ -32,7 +32,7 @@ class ApplayScreen extends StatelessWidget {
                     .pushNamed(AddDetailsScreen.routName, arguments: 'new');
               },
               child: Text(
-                'Applay Now',
+                'Applay New',
                 style: TextStyle(fontSize: 16),
               ),
               style: TextButton.styleFrom(

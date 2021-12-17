@@ -1,38 +1,66 @@
-import 'package:blood_donation/services/blood_card.dart';
-import 'package:blood_donation/services/blood_cards.dart';
-import 'package:blood_donation/widgets/blood_card_item.dart';
+
+import 'package:blood_donation/services/blood_status_card.dart';
+
+import 'package:blood_donation/widgets/card_grid.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
- 
+class HomeScreen extends StatefulWidget {
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  // var _showOnlyApproved = true;
+var _isInit = true;
+var _isLoading = false;
+
+  Future<void> _refreshData(BuildContext context) async {
+    await Provider.of<BloodStatusCards>(context, listen: false)
+        .fetchAndSetProducts();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<BloodStatusCards>(context)
+          .fetchAndSetProducts()
+          .then((_) => setState(() {
+                _isLoading = false;
+              }));
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final bloodCardData = Provider.of<BloodCards>(context);
+
     return Scaffold(
      
-      // appBar: AppBar(
-      //   title: Text('HomeScreen'),
-      // ),
-        body: Container(
-            padding: EdgeInsets.all(25),
-            width: double.infinity,
-            height: double.infinity,
-            child: GridView.builder(
-              itemCount: bloodCardData.items.length,
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 500,
-                childAspectRatio: 4 / 2,
-                crossAxisSpacing: 25,
-                mainAxisSpacing: 25,
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.purple.shade100,
+                color: Colors.purple,
               ),
-              itemBuilder: (ctx, i) => ChangeNotifierProvider<BloodCard>.value(
-                value: bloodCardData.items[i],
-                child: BloodCardItem(),
+            )
+          :
+          
+           RefreshIndicator(
+             onRefresh: () => _refreshData(context),
+             child: Container(
+                padding: EdgeInsets.all(15),
+                width: double.infinity,
+                height: double.infinity,
+                child: StatusGrid(),
+               
               ),
-            ),
-            ),
-            );
+           ),
+    );
   }
 }

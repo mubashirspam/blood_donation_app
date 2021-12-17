@@ -1,9 +1,7 @@
-
 import 'package:blood_donation/screens/add_details_screen.dart';
 import 'package:blood_donation/services/blood_status_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '/services/route.dart' as route;
 
 class StatusCardItem extends StatelessWidget {
   final String id;
@@ -13,9 +11,9 @@ class StatusCardItem extends StatelessWidget {
   final double age;
   final String bloodGrupe;
   final String nameInMalayalam;
+  final bool showAppr = false;
 
   const StatusCardItem(
-    
     this.id,
     this.name,
     this.age,
@@ -28,6 +26,9 @@ class StatusCardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cardData = Provider.of<BloodStatusCards>(context, listen: false);
+    final cards = cardData.notapprovedItems;
+    print("${cards}");
     return Dismissible(
       onDismissed: (direction) {
         Provider.of<BloodStatusCards>(context, listen: false).deleteCard(id);
@@ -42,10 +43,9 @@ class StatusCardItem extends StatelessWidget {
               'Do you want to delete ?',
             ),
             elevation: 4,
-       
             actions: [
               TextButton(
-                style: TextButton.styleFrom(backgroundColor: Colors.white),
+                  style: TextButton.styleFrom(backgroundColor: Colors.white),
                   onPressed: () {
                     Navigator.of(ctx).pop(false);
                   },
@@ -54,7 +54,7 @@ class StatusCardItem extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyText1,
                   )),
               TextButton(
-                style: TextButton.styleFrom(backgroundColor: Colors.white),
+                  style: TextButton.styleFrom(backgroundColor: Colors.white),
                   onPressed: () {
                     Navigator.of(ctx).pop(true);
                   },
@@ -87,22 +87,36 @@ class StatusCardItem extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(5),
           child: ListTile(
-            leading: CircleAvatar(
-              child: FittedBox(fit: BoxFit.cover, child: Text("O +ve")),
-            ),
-            title: Text(
-              name,
-              style: Theme.of(context).textTheme.headline3,
-            ),
-            subtitle: Text(
-              nameInMalayalam,
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
-            trailing: IconButton(
+              leading: CircleAvatar(
+                maxRadius: 25,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: bloodGrupe.isEmpty
+                          ? Text('Grupe')
+                          : Text(
+                              bloodGrupe,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            )),
+                ),
+              ),
+              title: Text(
+                name,
+                style: Theme.of(context).textTheme.headline3,
+              ),
+              subtitle: Text(
+                nameInMalayalam,
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+              trailing: IconButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed(
-                      AddDetailsScreen.routName,arguments: id
-                    );
+                    Navigator.of(context)
+                        .pushNamed(AddDetailsScreen.routName, arguments: id);
                   },
                   icon: Icon(
                     Icons.edit,
@@ -110,7 +124,7 @@ class StatusCardItem extends StatelessWidget {
                   ))
               // Text('Age :${age.toString()}',
               //     style: Theme.of(context).textTheme.headline3),
-          ),
+              ),
         ),
       ),
     );

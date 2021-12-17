@@ -140,8 +140,7 @@ class _AdmminLoginScreenState extends State<AdmminLoginScreen> {
                           child: TextButton(
                             onPressed: () {
                               _saveForm();
-                              if (_login.maile == "mub" &&
-                                  _login.password == 'mub') {
+                              if (_login.maile == "" && _login.password == '') {
                                 Navigator.of(context)
                                     .pushReplacementNamed(route.homePage);
                               } else {
