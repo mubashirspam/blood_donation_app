@@ -21,6 +21,14 @@ class StatusCard with ChangeNotifier {
       required this.contact,
       required this.nameInMalayam,
       this.isApproved = false});
+  //! for makin is admin through provider
+  bool _isAdmin = false;
+  get getIsAdmin => _isAdmin;
+  
+  void setIsAdmin(bool isAdmin) {
+    _isAdmin = isAdmin;
+    notifyListeners();
+  }
 
   Future<void> toggleFavoriteStatus() async {
     final oldStatus = false;
@@ -68,12 +76,8 @@ class BloodStatusCards with ChangeNotifier {
       final List<StatusCard> loadedData = [];
       var response = await users.get().then((value) => value.docs);
 
-     
-
       response.forEach((element) {
         Map<String, dynamic> data = element.data() as Map<String, dynamic>;
-
-        
 
         loadedData.add(StatusCard(
             id: element.id,

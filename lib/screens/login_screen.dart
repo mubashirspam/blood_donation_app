@@ -1,4 +1,3 @@
-
 import 'package:blood_donation/services/constants.dart';
 import 'package:blood_donation/services/googleSignIn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,6 +12,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,14 +41,13 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 class LoginUi extends StatefulWidget {
-  const LoginUi({ Key? key }) : super(key: key);
+  const LoginUi({Key? key}) : super(key: key);
 
   @override
   _LoginUiState createState() => _LoginUiState();
 }
 
 class _LoginUiState extends State<LoginUi> {
- 
   bool _isSigningIn = false;
   @override
   Widget build(BuildContext context) {
@@ -91,15 +90,14 @@ class _LoginUiState extends State<LoginUi> {
               onPressed: () {
                 // Navigator.of(context).pushNamed(route.homePage);
                 Navigator.of(context).pushNamed(route.adminLoginPage);
-                
               },
               child: Text(
                 'Admin',
                 style: TextStyle(fontSize: 16),
               ),
               style: TextButton.styleFrom(
-                  minimumSize: Size(double.infinity, 55),
-                  ),
+                minimumSize: Size(double.infinity, 55),
+              ),
             ),
             SizedBox(
               height: 20,
@@ -108,6 +106,7 @@ class _LoginUiState extends State<LoginUi> {
               onPressed: () async {
                 setState(() {
                   _isSigningIn = true;
+                  isAdmin == false;
                 });
 
                 User? user =
@@ -118,7 +117,9 @@ class _LoginUiState extends State<LoginUi> {
                 });
 
                 if (user != null) {
-                  Navigator.of(context).pushNamed(route.homePage);
+                  bool isAdmin = true;
+                  Navigator.of(context)
+                      .pushNamed(route.homePage, arguments: isAdmin);
                 }
 
                 setState(() {

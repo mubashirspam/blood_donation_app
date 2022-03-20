@@ -1,4 +1,5 @@
 import 'package:blood_donation/services/blood_status_card.dart';
+import 'package:blood_donation/services/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,11 +10,12 @@ class BloodCardItem extends StatelessWidget {
     this.id,
   );
   final bool showAppr = false;
-  bool isAdmin = true;
+ 
 
   @override
   Widget build(BuildContext context) {
     final bloodCardData = Provider.of<StatusCard>(context, listen: false);
+
 
     return InkWell(
       highlightColor: Colors.red,

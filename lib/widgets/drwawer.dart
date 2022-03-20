@@ -1,4 +1,5 @@
 import 'package:blood_donation/screens/aboutUs.dart';
+import 'package:blood_donation/services/constants.dart';
 import 'package:blood_donation/services/googleSignIn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class _OptionState extends State<Option> {
                 BoxDecoration(color: Theme.of(context).colorScheme.secondary),
             arrowColor: Colors.amber,
             accountName: Text("Grama Phone Blood App"),
-            accountEmail: Text("${user?.email}"),
+            accountEmail:isAdmin ? Text('Admin Login') : Text("${user?.email}"),
             currentAccountPicture: Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.white),
@@ -87,6 +88,23 @@ class _OptionState extends State<Option> {
           Divider(
             color: Colors.grey,
           ),
+             ListTile(
+            title: Text(
+              'Language',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            leading: Icon(
+              Icons.language,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AboutPage()));
+            },
+          ),
+          Divider(
+            color: Colors.grey,
+          ),
           ListTile(
             title: Text(
               'Rate Us',
@@ -115,6 +133,7 @@ class _OptionState extends State<Option> {
                 });
                 await Authentication.signOut(context: context);
                 setState(() {
+                  isAdmin = false;
                   isSigningOut = false;
                 });
                 Navigator.of(context).pushReplacementNamed(route.loginPage);

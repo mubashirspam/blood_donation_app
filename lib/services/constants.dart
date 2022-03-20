@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+bool isAdmin = false;
+
 class CustomColors {
   static final Color firebaseNavy = Color(0xFF2C384A);
   static final Color firebaseOrange = Color(0xFFF57C00);

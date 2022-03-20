@@ -1,6 +1,9 @@
+import 'package:blood_donation/services/blood_status_card.dart';
+import 'package:blood_donation/services/constants.dart';
 import 'package:blood_donation/services/route.dart' as route;
 import 'package:blood_donation/widgets/form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Login {
   final String maile;
@@ -128,7 +131,7 @@ class _AdmminLoginScreenState extends State<AdmminLoginScreen> {
                             //   onPressed: () {
                             //     setState(() {
                             //       _visible = !_visible;
-          
+
                             //     });
                             //   },
                             //   icon: Icon( _visible?  Icons.visibility_off_outlined :Icons.visibility_outlined),
@@ -140,9 +143,13 @@ class _AdmminLoginScreenState extends State<AdmminLoginScreen> {
                           child: TextButton(
                             onPressed: () {
                               _saveForm();
-                              if (_login.maile == "" && _login.password == '') {
+                              if (_login.maile == "admin" &&
+                                  _login.password == 'admin@123') {
                                 Navigator.of(context)
                                     .pushReplacementNamed(route.homePage);
+
+                                isAdmin = true;
+                                print(isAdmin);
                               } else {
                                 ScaffoldMessenger.of(context)
                                     .hideCurrentSnackBar();
@@ -162,9 +169,8 @@ class _AdmminLoginScreenState extends State<AdmminLoginScreen> {
                               style: TextStyle(fontSize: 16),
                             ),
                             style: TextButton.styleFrom(
-                                minimumSize: Size(double.infinity, 55),
-                                
-                                   ),
+                              minimumSize: Size(double.infinity, 55),
+                            ),
                           ),
                         ),
                       ],

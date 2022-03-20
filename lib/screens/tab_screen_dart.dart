@@ -9,8 +9,8 @@ import 'package:blood_donation/widgets/drwawer.dart';
 import 'package:flutter/material.dart';
 
 class TabScreen extends StatefulWidget {
-
-   TabScreen({Key? key }) : super(key: key );
+  Object? isAdmin;
+  TabScreen({Key? key, required this.isAdmin}) : super(key: key);
 
   @override
   _TabScreenState createState() => _TabScreenState();
@@ -26,7 +26,6 @@ class _TabScreenState extends State<TabScreen> {
       'page': ApplayScreen(),
       'title': 'Applay New',
     },
-
     {
       'page': StatusScreen(),
       'title': 'Application Status',
@@ -46,8 +45,6 @@ class _TabScreenState extends State<TabScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
-      
       drawer: Option(),
       body: _pages[_selectedIndex]['page'] as Widget,
       appBar: AppBar(
@@ -68,7 +65,6 @@ class _TabScreenState extends State<TabScreen> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            
             icon: Icon(
               Icons.add_chart,
             ),

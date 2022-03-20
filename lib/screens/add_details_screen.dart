@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:blood_donation/services/blood_status_card.dart';
+import 'package:blood_donation/services/constants.dart';
 import 'package:blood_donation/widgets/form_field.dart';
 
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class AddDetailsScreen extends StatefulWidget {
 }
 
 class _AddDetailsScreenState extends State<AddDetailsScreen> {
-  bool isAdmin = true;
+ 
 
   final _formKey = GlobalKey<FormState>();
   String? bloodvalue;
@@ -301,7 +302,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                   // isAdmin
                   //     ?
 
-                  Container(
+               isAdmin ?   Container(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -349,7 +350,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                         ),
                       ],
                     ),
-                        ),
+                        ) : Container(),
 
                       // :
 
