@@ -1,9 +1,10 @@
-import 'package:blood_donation/services/blood_status_card.dart';
-import 'package:blood_donation/services/constants.dart';
-import 'package:blood_donation/services/route.dart' as route;
-import 'package:blood_donation/widgets/form_field.dart';
+
+import 'package:blood_donation/controller/constants.dart';
+import 'package:blood_donation/controller/route.dart' as route;
+import 'package:blood_donation/view/widgets/form_field.dart';
+
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 
 class Login {
   final String maile;

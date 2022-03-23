@@ -1,8 +1,10 @@
-import 'package:blood_donation/screens/add_details_screen.dart';
-import 'package:blood_donation/screens/admin_login_screen.dart';
-import 'package:blood_donation/screens/login_screen.dart';
-import 'package:blood_donation/screens/tab_screen_dart.dart';
+
+import 'package:blood_donation/view/add_details_screen.dart';
+import 'package:blood_donation/view/login_screen.dart';
+import 'package:blood_donation/view/tab_screen_dart.dart';
 import 'package:flutter/material.dart';
+
+import '../view/admin_login_screen.dart';
 
 const String loginPage = 'login';
 const String homePage = 'home';

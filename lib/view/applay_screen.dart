@@ -1,4 +1,5 @@
-import 'package:blood_donation/screens/add_details_screen.dart';
+
+import 'package:blood_donation/view/add_details_screen.dart';
 import 'package:flutter/material.dart';
 
 

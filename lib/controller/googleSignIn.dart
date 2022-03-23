@@ -1,10 +1,11 @@
-import 'package:blood_donation/services/utls.dart';
+
+import 'package:blood_donation/controller/utls.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import '/services/route.dart' as route;
+import '/controller/route.dart' as route;
 
 //! akbar
 class Authentication {

@@ -1,11 +1,10 @@
-import 'package:blood_donation/screens/applay_screen.dart';
-import 'package:blood_donation/screens/home_screen.dart';
 
-import 'package:blood_donation/screens/profile_screen.dart';
-import 'package:blood_donation/screens/status_screen.dart';
 
-import 'package:blood_donation/widgets/drwawer.dart';
-
+import 'package:blood_donation/view/applay_screen.dart';
+import 'package:blood_donation/view/home_screen.dart';
+import 'package:blood_donation/view/profile_screen.dart';
+import 'package:blood_donation/view/status_screen.dart';
+import 'package:blood_donation/view/widgets/drwawer.dart';
 import 'package:flutter/material.dart';
 
 class TabScreen extends StatefulWidget {

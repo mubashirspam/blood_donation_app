@@ -1,10 +1,11 @@
-import 'package:blood_donation/screens/aboutUs.dart';
-import 'package:blood_donation/services/constants.dart';
-import 'package:blood_donation/services/googleSignIn.dart';
+
+import 'package:blood_donation/controller/constants.dart';
+import 'package:blood_donation/controller/googleSignIn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '/services/route.dart' as route;
+import '../aboutUs.dart';
+import '/controller/route.dart' as route;
 
 class Option extends StatefulWidget {
   // final User user;

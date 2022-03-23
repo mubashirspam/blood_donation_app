@@ -1,5 +1,6 @@
-import 'package:blood_donation/screens/add_details_screen.dart';
-import 'package:blood_donation/services/blood_status_card.dart';
+
+import 'package:blood_donation/controller/blood_status_card.dart';
+import 'package:blood_donation/view/add_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

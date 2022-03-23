@@ -1,8 +1,9 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:blood_donation/services/blood_status_card.dart';
-import 'package:blood_donation/services/constants.dart';
-import 'package:blood_donation/widgets/form_field.dart';
+import 'package:blood_donation/controller/blood_status_card.dart';
+import 'package:blood_donation/controller/constants.dart';
+import 'package:blood_donation/view/widgets/form_field.dart';
+
 
 import 'package:flutter/material.dart';
 
