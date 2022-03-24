@@ -1,4 +1,3 @@
-
 import 'package:blood_donation/controller/utls.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,6 +8,11 @@ import '/controller/route.dart' as route;
 
 //! akbar
 class Authentication {
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  get user => _auth.currentUser;
+
   //! for auto login
   static Future<FirebaseApp> initializeFirebase({
     required BuildContext context,
@@ -18,7 +22,6 @@ class Authentication {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-  
       Navigator.of(context).pushReplacementNamed(route.homePage);
     }
 
@@ -52,22 +55,20 @@ class Authentication {
       } on FirebaseAuthException catch (e) {
         if (e.code == 'account-exists-with-different-credential') {
           ScaffoldMessenger.of(context).showSnackBar(
-            A.customSnackBar(
-              content:
+            Utils().toast( context,
+              
                   'The account already exists with a different credential.',
             ),
           );
         } else if (e.code == 'invalid-credential') {
           ScaffoldMessenger.of(context).showSnackBar(
-            A.customSnackBar(
-              content: 'Error occurred while accessing credentials. Try again.',
+            Utils().toast( context, 'Error occurred while accessing credentials. Try again.',
             ),
           );
         }
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          A.customSnackBar(
-            content: 'Error occurred using Google Sign-In. Try again.',
+          Utils().toast( context, 'Error occurred using Google Sign-In. Try again.',
           ),
         );
       }
@@ -87,10 +88,48 @@ class Authentication {
       await FirebaseAuth.instance.signOut();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        A.customSnackBar(
-          content: 'Error signing out. Try again.',
+        Utils().toast( context, 'Error signing out. Try again.',
         ),
       );
     }
+  }
+
+
+
+//!  SIGN UP WITH EMAIL AND PASSWORD
+  Future<String?> signUpWithMailId(
+      {required String email, required String password}) async {
+    try {
+      await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return 'Signup success';
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        return 'The password provided is too weak.';
+      } else if (e.code == 'email-already-in-use') {
+        return 'The account already exists for that email.';
+      }
+      print(e);
+    }
+    return 'Signup failed';
+  }
+
+  //!  SIGN IN WITH EMAIL AND PASSWORD
+  Future<String?> signInWithMailId(
+      {required String email, required String password}) async {
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return 'Signin success';
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        return 'No user found for that email.';
+      } else if (e.code == 'wrong-password') {
+        return 'Wrong password provided for that user.';
+      }
+    }
+
+    return 'Signin failed';
   }
 }

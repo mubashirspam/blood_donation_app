@@ -1,17 +1,10 @@
-
+import 'package:blood_donation/controller/auth_services.dart';
 import 'package:blood_donation/controller/constants.dart';
 import 'package:blood_donation/controller/route.dart' as route;
+import 'package:blood_donation/controller/utls.dart';
 import 'package:blood_donation/view/widgets/form_field.dart';
 
 import 'package:flutter/material.dart';
-
-
-class Login {
-  final String maile;
-  final String password;
-
-  Login({required this.maile, required this.password});
-}
 
 class AdmminLoginScreen extends StatefulWidget {
   const AdmminLoginScreen({Key? key}) : super(key: key);
@@ -21,33 +14,36 @@ class AdmminLoginScreen extends StatefulWidget {
 }
 
 class _AdmminLoginScreenState extends State<AdmminLoginScreen> {
-  // final emailController = TextEditingController(text: "Your initial value");
-  // final passwordController = TextEditingController(text: "Your initial value");
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
-  var _login = Login(
-    maile: '',
-    password: '',
-  );
-  var emailController = TextEditingController();
-  var passwordController = TextEditingController();
+  @override
+  void dispose() {
+    // emailController.dispose();
+    // passwordController.dispose();
+    super.dispose();
+  }
 
-  bool _visible = true;
-  // @override
-  // void dispose() {
-  //   // Clean up the controller when the widget is disposed.
-  //   emailController.dispose();
-  //   passwordController.dispose();
-  //   super.dispose();
-  // }
   final _formKey = GlobalKey<FormState>();
 
-  void _saveForm() {
+  login() {
     final isValid = _formKey.currentState!.validate();
     if (!isValid) {
       return;
-      // note save input befor validation
     }
-    _formKey.currentState!.save();
+
+    Authentication()
+        .signInWithMailId(
+            email: emailController.text, password: passwordController.text)
+        .then((value) {
+      print(emailController.text);
+      if (value == 'Signin success') {
+        Utils().toast(context, value ?? 'Signin success');
+        Navigator.pushReplacementNamed(context, route.homePage);
+      } else {
+        Utils().toast(context, 'j');
+      }
+    });
   }
 
   @override
@@ -96,74 +92,34 @@ class _AdmminLoginScreenState extends State<AdmminLoginScreen> {
                             }
                             return null;
                           },
-                          (value) {
-                            _login = Login(
-                                maile: value.toString(),
-                                password: _login.password);
-                          },
+                          (value) {},
                           false,
                           // emailController,
+                          textEditingController: emailController,
                         ),
                         Container(
                           width: double.infinity,
                           child: Row(children: [
                             Expanded(
                               child: BuildTextField(
-                                'Password',
-                                '',
-                                TextInputAction.done,
-                                TextInputType.name,
-                                (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Password Required';
-                                  }
-                                  return null;
-                                },
-                                (value) {
-                                  _login = Login(
-                                      maile: _login.maile,
-                                      password: value.toString());
-                                },
-                                _visible,
-                                // passwordController,
-                              ),
+                                  'Password',
+                                  '',
+                                  TextInputAction.done,
+                                  TextInputType.name, (value) {
+                                if (value!.isEmpty) {
+                                  return 'Password Required';
+                                }
+                                return null;
+                              }, (value) {}, true,
+                                  textEditingController: passwordController),
                             ),
-                            // IconButton(
-                            //   onPressed: () {
-                            //     setState(() {
-                            //       _visible = !_visible;
-
-                            //     });
-                            //   },
-                            //   icon: Icon( _visible?  Icons.visibility_off_outlined :Icons.visibility_outlined),
-                            // )
                           ]),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: TextButton(
                             onPressed: () {
-                              _saveForm();
-                              if (_login.maile == "admin" &&
-                                  _login.password == 'admin@123') {
-                                Navigator.of(context)
-                                    .pushReplacementNamed(route.homePage);
-
-                                isAdmin = true;
-                                print(isAdmin);
-                              } else {
-                                ScaffoldMessenger.of(context)
-                                    .hideCurrentSnackBar();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      'Incorrect user name or Passw0rd',
-                                    ),
-                                    duration: Duration(seconds: 1),
-                                  ),
-                                );
-                              }
-                              ;
+                              login();
                             },
                             child: Text(
                               'Login',

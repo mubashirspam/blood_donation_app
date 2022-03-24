@@ -1,6 +1,6 @@
 
 import 'package:blood_donation/controller/constants.dart';
-import 'package:blood_donation/controller/googleSignIn.dart';
+import 'package:blood_donation/controller/auth_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '/controller/route.dart' as route;

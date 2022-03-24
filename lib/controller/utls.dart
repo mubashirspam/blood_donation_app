@@ -1,15 +1,16 @@
- import 'package:flutter/material.dart';
 
- class  A {
-   
-   static SnackBar customSnackBar({required String content}) {
-  return SnackBar(
-    backgroundColor: Colors.black,
-    content: Text(
-      content,
-      style: TextStyle(color: Colors.redAccent, letterSpacing: 0.5),
-    ),
-  );
+
+import 'package:flutter/material.dart';
+
+class Utils {
+  toast(BuildContext context, String title) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          '$title',
+        ),
+        duration: Duration(seconds: 1),
+      ),
+    );
+  }
 }
- }
-
