@@ -1,5 +1,3 @@
-
-
 import 'package:blood_donation/view/applay_screen.dart';
 import 'package:blood_donation/view/home_screen.dart';
 import 'package:blood_donation/view/profile_screen.dart';

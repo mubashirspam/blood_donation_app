@@ -1,5 +1,5 @@
 
-import 'package:blood_donation/controller/blood_status_card.dart';
+import 'package:blood_donation/controller/dataProvider.dart';
 import 'package:blood_donation/view/add_details_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(
-            create: (context) => BloodStatusCards(),
+            create: (context) => DataProvider(),
           )
         ],
         child: MaterialApp(

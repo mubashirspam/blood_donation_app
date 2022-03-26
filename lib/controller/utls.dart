@@ -9,7 +9,7 @@ class Utils {
         content: Text(
           '$title',
         ),
-        duration: Duration(seconds: 1),
+        duration: Duration(seconds: 3),
       ),
     );
   }

@@ -1,7 +1,7 @@
 
 
 
-import 'package:blood_donation/controller/blood_status_card.dart';
+import 'package:blood_donation/controller/dataProvider.dart';
 import 'package:blood_donation/view/widgets/card_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,25 +17,9 @@ var _isInit = true;
 var _isLoading = false;
 
   Future<void> _refreshData(BuildContext context) async {
-    await Provider.of<BloodStatusCards>(context, listen: false)
-        .fetchAndSetProducts();
+   
   }
 
-  @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      setState(() {
-        _isLoading = true;
-      });
-      Provider.of<BloodStatusCards>(context)
-          .fetchAndSetProducts()
-          .then((_) => setState(() {
-                _isLoading = false;
-              }));
-    }
-    _isInit = false;
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {

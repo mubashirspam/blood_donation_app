@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class BuildTextField extends StatelessWidget {
   final String label;
-  final initialValue;
+  // final initialValue;
   final TextInputAction textInputAction;
   final TextInputType textInputType;
   final FormFieldValidator formFieldValidator;
@@ -11,7 +11,7 @@ class BuildTextField extends StatelessWidget {
   final TextEditingController? textEditingController;
   BuildTextField(
       this.label,
-      this.initialValue,
+      // this.initialValue,
       this.textInputAction,
       this.textInputType,
       this.formFieldValidator,

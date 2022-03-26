@@ -1,37 +1,40 @@
+import 'package:blood_donation/controller/firebase_api.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
-
+  ProfileScreen({Key? key}) : super(key: key);
+  final User? currentUser = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
         body: Container(
-          padding: EdgeInsets.all(15),
-          width: double.infinity,
-          height: double.infinity,
-     
- 
+      padding: EdgeInsets.all(15),
+      width: double.infinity,
+      height: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            child: Center(child: Text("Image")),
+            
             margin: EdgeInsets.all(30),
             width: 100,
             height: 100,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.amber,
+              image: DecorationImage(
+                image: NetworkImage(currentUser?.photoURL ?? ''),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Text(
-            'Name',
+            '${currentUser?.displayName ?? 'No Name'}',
             style: Theme.of(context).textTheme.headline1,
           ),
           Text(
-            'Gmaile.com',
+            '${currentUser?.email ?? 'No email'}',
             style: Theme.of(context).textTheme.bodyText1,
           ),
         ],

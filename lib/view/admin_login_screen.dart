@@ -1,5 +1,5 @@
 import 'package:blood_donation/controller/auth_services.dart';
-import 'package:blood_donation/controller/constants.dart';
+
 import 'package:blood_donation/controller/route.dart' as route;
 import 'package:blood_donation/controller/utls.dart';
 import 'package:blood_donation/view/widgets/form_field.dart';
@@ -83,7 +83,7 @@ class _AdmminLoginScreenState extends State<AdmminLoginScreen> {
                       children: [
                         BuildTextField(
                           'Username',
-                          '',
+                          
                           TextInputAction.next,
                           TextInputType.emailAddress,
                           (value) {
@@ -103,7 +103,7 @@ class _AdmminLoginScreenState extends State<AdmminLoginScreen> {
                             Expanded(
                               child: BuildTextField(
                                   'Password',
-                                  '',
+                                
                                   TextInputAction.done,
                                   TextInputType.name, (value) {
                                 if (value!.isEmpty) {

@@ -1,5 +1,4 @@
-
-import 'package:blood_donation/controller/blood_status_card.dart';
+import 'package:blood_donation/controller/dataProvider.dart';
 import 'package:blood_donation/controller/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,12 +10,10 @@ class BloodCardItem extends StatelessWidget {
     this.id,
   );
   final bool showAppr = false;
- 
 
   @override
   Widget build(BuildContext context) {
-    final bloodCardData = Provider.of<StatusCard>(context, listen: false);
-
+    final bloodCardData = Provider.of<DataProvider>(context, listen: false);
 
     return InkWell(
       highlightColor: Colors.red,
@@ -45,8 +42,8 @@ class BloodCardItem extends StatelessWidget {
                         style:
                             TextButton.styleFrom(backgroundColor: Colors.white),
                         onPressed: () {
-                          Provider.of<BloodStatusCards>(context, listen: false)
-                              .deleteCard(id);
+                          Provider.of<DataProvider>(context, listen: false);
+
                           Navigator.of(ctx).pop();
                         },
                         child: Text('Yes',
@@ -84,7 +81,7 @@ class BloodCardItem extends StatelessWidget {
                           child: Column(
                             children: [
                               Text(
-                                bloodCardData.bloodGrupe,
+                                'hh',
                                 style: Theme.of(context).textTheme.headline3,
                               ),
                               Container(
@@ -94,7 +91,7 @@ class BloodCardItem extends StatelessWidget {
                                 color: Colors.grey.shade300,
                               ),
                               Text(
-                                bloodCardData.age.toString(),
+                                'age',
                                 style: Theme.of(context).textTheme.headline3,
                               ),
                             ],
@@ -114,14 +111,14 @@ class BloodCardItem extends StatelessWidget {
                             FittedBox(
                               fit: BoxFit.fitWidth,
                               child: Text(
-                                bloodCardData.name,
+                                'hh',
                                 style: Theme.of(context).textTheme.headline2,
                               ),
                             ),
                             FittedBox(
                               fit: BoxFit.fitWidth,
                               child: Text(
-                                bloodCardData.nameInMalayam,
+                                'aa',
                                 style: Theme.of(context).textTheme.headline2,
                               ),
                             ),

@@ -1,38 +1,21 @@
-
-import 'package:blood_donation/controller/blood_status_card.dart';
+import 'package:blood_donation/controller/dataProvider.dart';
+import 'package:blood_donation/model/blood_model.dart';
 import 'package:blood_donation/view/add_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class StatusCardItem extends StatelessWidget {
-  final String id;
-  // final String cardId;
-  final String name;
-  final double contact;
-  final double age;
-  final String bloodGrupe;
-  final String nameInMalayalam;
-  final bool showAppr = false;
+  final BloodModel bloodModel;
 
-  const StatusCardItem(
-    this.id,
-    this.name,
-    this.age,
-    this.contact,
-    this.bloodGrupe,
-    this.nameInMalayalam,
-
-    // this.cardId
-  );
+  const StatusCardItem({
+    required this.bloodModel,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final cardData = Provider.of<BloodStatusCards>(context, listen: false);
-    final cards = cardData.notapprovedItems;
-    print("${cards}");
     return Dismissible(
       onDismissed: (direction) {
-        Provider.of<BloodStatusCards>(context, listen: false).deleteCard(id);
+        Provider.of<DataProvider>(context, listen: false);
       },
       direction: DismissDirection.endToStart,
       confirmDismiss: (direction) {
@@ -79,53 +62,45 @@ class StatusCardItem extends StatelessWidget {
           horizontal: 15,
         ),
       ),
-      key: ValueKey(id),
+      key: ValueKey(bloodModel.collectionId),
       child: Card(
-        // margin: EdgeInsets.symmetric(
-        //   vertical: 4,
-        //   horizontal: 15,
-        // ),
         child: Padding(
           padding: EdgeInsets.all(5),
           child: ListTile(
-              leading: CircleAvatar(
-                maxRadius: 25,
-                backgroundColor: Theme.of(context).colorScheme.secondary,
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: FittedBox(
-                      fit: BoxFit.cover,
-                      child: bloodGrupe.isEmpty
-                          ? Text('Grupe')
-                          : Text(
-                              bloodGrupe,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            )),
-                ),
+            leading: CircleAvatar(
+              maxRadius: 25,
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: Text(
+                      '${bloodModel.bloodGrupe}',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold),
+                    )),
               ),
-              title: Text(
-                name,
-                style: Theme.of(context).textTheme.headline3,
-              ),
-              subtitle: Text(
-                nameInMalayalam,
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-              trailing: IconButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .pushNamed(AddDetailsScreen.routName, arguments: id);
-                  },
-                  icon: Icon(
-                    Icons.edit,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ))
-              // Text('Age :${age.toString()}',
-              //     style: Theme.of(context).textTheme.headline3),
-              ),
+            ),
+            title: Text(
+              bloodModel.name,
+              style: Theme.of(context).textTheme.headline3,
+            ),
+            subtitle: Text(
+              bloodModel.contact.toString(),
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            trailing: bloodModel.isApproved
+                ? Text(
+                    'Approved',
+                    style: Theme.of(context).textTheme.bodyText1,
+                  )
+                : Text(
+                    'Pending',
+                    style: TextStyle(color: Colors.red),
+                  ),
+          ),
         ),
       ),
     );

@@ -25,7 +25,8 @@ dependencies:
   
 
 
-  
+  # idGeneration
+  uuid: ^3.0.6
   cupertino_icons: ^1.0.2
   provider: ^6.0.1
   firebase_core: ^1.10.0

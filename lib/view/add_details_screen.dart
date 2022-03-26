@@ -1,13 +1,17 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:blood_donation/controller/blood_status_card.dart';
 import 'package:blood_donation/controller/constants.dart';
-import 'package:blood_donation/view/widgets/form_field.dart';
+import 'package:blood_donation/controller/dataProvider.dart';
+import 'package:blood_donation/controller/utls.dart';
 
+import 'package:blood_donation/model/blood_model.dart';
+import 'package:blood_donation/view/widgets/form_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
+
+import 'package:uuid/uuid.dart';
 
 class AddDetailsScreen extends StatefulWidget {
   static final routName = '/Add_details_screen';
@@ -16,11 +20,14 @@ class AddDetailsScreen extends StatefulWidget {
 }
 
 class _AddDetailsScreenState extends State<AddDetailsScreen> {
- 
-
   final _formKey = GlobalKey<FormState>();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController nameInMalayalamController = TextEditingController();
   String? bloodvalue;
   String? gengervalue;
+  var uid = Uuid();
   List<String> blodGroup = [
     'A +ve',
     'B +ve',
@@ -33,104 +40,27 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
   ];
   List<String> gender = ['Male', 'Female', 'Othor'];
 
-  var _editBloodCard = StatusCard(
-    id: '',
-    name: '',
-    age: 0,
-    bloodGrupe: '',
-    nameInMalayam: '',
-    contact: 0,
-    gender: '',
-    isApproved: false,
-  );
-  var _initValue = {
-    "name": '',
-    'age': '',
-    'nameInMalayalam': '',
-    'contact': '',
-    'gender': '',
-    'bloodGrupe': '',
-  };
-
-  var _isLoading = false;
-
-  var _isInit = true;
-
-  @override
-  void didChangeDependencies() {
-    // for edit product
-
-    if (_isInit) {
-      final cardId = ModalRoute.of(context)!.settings.arguments as String;
-      if (cardId != 'new') {
-        _editBloodCard = Provider.of<BloodStatusCards>(context, listen: false)
-            .findById(cardId);
-        _initValue = {
-          "name": _editBloodCard.name,
-          'age': _editBloodCard.age.toStringAsFixed(0),
-          'nameInMalayalam': _editBloodCard.nameInMalayam,
-          'contact': _editBloodCard.contact.toStringAsFixed(0),
-        };
-      }
-    }
-    _isInit = false;
-    super.didChangeDependencies();
-  }
-
   Future<void> _saveForm() async {
-    final isValid = _formKey.currentState!.validate();
-    if (!isValid) {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    bool _isValid = _formKey.currentState!.validate();
+
+    if (!_isValid) {
       return;
-      // note save input befor validation
     }
-    _formKey.currentState!.save();
-
-    setState(() {
-      _isLoading = true;
-    });
-
-    if (_editBloodCard.id != '') {
-      Provider.of<BloodStatusCards>(context, listen: false)
-          .updateCard(_editBloodCard.id, _editBloodCard);
-      // for update existing data
-
-      setState(() {
-        _isLoading = false;
-      });
-      Navigator.of(context).pop();
-    } else {
-      try {
-        await Provider.of<BloodStatusCards>(context, listen: false)
-            .addCard(_editBloodCard);
-      } catch (error) {
-        await showDialog<Null>(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text("An Error occured"),
-            content: Text(error.toString()),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('Okay'),
-              )
-            ],
-          ),
-        );
-      }
-      setState(() {
-        _isLoading = false;
-      });
-      Navigator.of(context).pop();
-    }
+    BloodModel _bloodModel = BloodModel(
+        gender: gengervalue ?? gender[0],
+        age: double.parse(ageController.text),
+        bloodGrupe: bloodvalue ?? blodGroup[0],
+        collectionId: uid.v1(),
+        userId: currentUser?.uid ?? '',
+        name: nameController.text,
+        contact: int.parse(phoneController.text),
+        nameInMalayam: nameInMalayalamController.text);
+    context.read<DataProvider>().addDonor(_bloodModel).then((value) => {
+          Utils().toast(context, 'Successfully added'),
+          Navigator.of(context).pop(),
+        });
   }
-  // @override
-  // void dispose() {
-  //   // Clean up the controller when the widget is disposed.
-  //   myController.dispose();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -140,170 +70,110 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
         elevation: 0,
         title: Text('Add Details'),
       ),
-      body: _isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : Container(
-              padding: EdgeInsets.all(25),
-              child: ListView(
-                children: [
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: <Widget>[
-                        BuildTextField(
-                          'Name', _initValue['name'].toString(),
-                          TextInputAction.next,
-                          TextInputType.name,
-                          (value) {
-                            if (value!.isEmpty) {
-                              return 'Required';
-                            }
-                            return null;
-                          },
-                          (value) {
-                            _editBloodCard = StatusCard(
-                                gender: _editBloodCard.gender,
-                                contact: _editBloodCard.contact,
-                                id: _editBloodCard.id,
-                                name: value.toString(),
-                                nameInMalayam: _editBloodCard.nameInMalayam,
-                                bloodGrupe: _editBloodCard.bloodGrupe,
-                                age: _editBloodCard.age);
-                          },
-                          false,
-                          // myController,
-                        ),
-                        BuildTextField(
-                          'Name Malayalam',
-                          _initValue['nameInMalayalam'].toString(),
-                          TextInputAction.next,
-                          TextInputType.name,
-                          (value) {
-                            if (value!.isEmpty) {
-                              return 'Required';
-                            }
-                            return null;
-                          },
-                          (value) {
-                            _editBloodCard = StatusCard(
-                                gender: _editBloodCard.gender,
-                                contact: _editBloodCard.contact,
-                                id: _editBloodCard.id,
-                                name: _editBloodCard.name,
-                                nameInMalayam: value.toString(),
-                                bloodGrupe: _editBloodCard.bloodGrupe,
-                                age: _editBloodCard.age);
-                          },
-                          false,
-                          // myController,
-                        ),
-                        BuildTextField(
-                          'Age', _initValue['age'].toString(),
-                          TextInputAction.next,
-                          TextInputType.number,
-                          (value) {
-                            if (value!.isEmpty) {
-                              return 'Add age ';
-                            }
-                            if (double.tryParse(value) == null) {
-                              return 'Add valid age';
-                            }
-                            if (double.parse(value) <= 19) {
-                              return 'Graterthan 18 ';
-                            }
-                            //  if (value.length < 3) {
-                            //   return 'invalid Age';
-                            // }
-                            return null;
-                          },
-                          (value) {
-                            _editBloodCard = StatusCard(
-                                gender: _editBloodCard.gender,
-                                contact: _editBloodCard.contact,
-                                id: _editBloodCard.id,
-                                name: _editBloodCard.name,
-                                nameInMalayam: _editBloodCard.nameInMalayam,
-                                bloodGrupe: _editBloodCard.bloodGrupe,
-                                age: double.parse(value.toString()));
-                          },
-                          false,
-                          // myController,
-                        ),
-                        BuildTextField(
-                          'Contact Number',
-                          _initValue['contact'].toString(),
-                          TextInputAction.done,
-                          TextInputType.number,
-                          (value) {
-                            if (value!.isEmpty) {
-                              return 'Add contact number ';
-                            }
-                            if (double.tryParse(value) == null) {
-                              return 'Add valid number';
-                            }
-                            if (value.length < 10) {
-                              return 'invalid mobile number';
-                            }
-                            if (value.length > 10) {
-                              return 'invalid mobile number';
-                            }
-                            return null;
-                          },
-                          (value) {
-                            _editBloodCard = StatusCard(
-                                gender: _editBloodCard.gender,
-                                contact: double.parse(value),
-                                id: _editBloodCard.id,
-                                name: _editBloodCard.name,
-                                nameInMalayam: _editBloodCard.nameInMalayam,
-                                bloodGrupe: _editBloodCard.bloodGrupe,
-                                age: _editBloodCard.age);
-                          },
-                          false,
-                          // myController,
-                        ),
-                        dropDown(
-                            onChangedFunction: (value) => setState(() {
-                                  _editBloodCard = StatusCard(
-                                      gender: _editBloodCard.gender,
-                                      age: _editBloodCard.age,
-                                      bloodGrupe: value.toString(),
-                                      id: _editBloodCard.id,
-                                      name: _editBloodCard.name,
-                                      contact: _editBloodCard.contact,
-                                      nameInMalayam:
-                                          _editBloodCard.nameInMalayam);
-                                  bloodvalue = value;
-                                }),
-                            context: context,
-                            valueb: bloodvalue,
-                            myList: blodGroup),
-                        dropDown(
-                            onChangedFunction: (value) => setState(() {
-                                  _editBloodCard = StatusCard(
-                                      gender: value.toString(),
-                                      age: _editBloodCard.age,
-                                      bloodGrupe: _editBloodCard.bloodGrupe,
-                                      id: _editBloodCard.id,
-                                      name: _editBloodCard.name,
-                                      contact: _editBloodCard.contact,
-                                      nameInMalayam:
-                                          _editBloodCard.nameInMalayam);
-                                  gengervalue = value;
-                                }),
-                            context: context,
-                            valueb: gengervalue,
-                            myList: gender)
-                      ],
-                    ),
+      body: Container(
+        padding: EdgeInsets.only(left: 25, right: 25),
+        child: ListView(
+          children: [
+            Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  BuildTextField(
+                    'Name',
+                    TextInputAction.next,
+                    TextInputType.name,
+                    (value) {
+                      if (value!.isEmpty) {
+                        return 'Required';
+                      }
+                      return null;
+                    },
+                    (value) {},
+                    false,
+                    textEditingController: nameController,
                   ),
+                  BuildTextField(
+                    'Name Malayalam',
 
-                  // isAdmin
-                  //     ?
+                    TextInputAction.next,
+                    TextInputType.name,
+                    (value) {
+                      if (value!.isEmpty) {
+                        return 'Required';
+                      }
+                      return null;
+                    },
+                    (value) {},
+                    false,
+                    textEditingController: nameInMalayalamController,
+                    // myController,
+                  ),
+                  BuildTextField(
+                    'Age',
+                    TextInputAction.next,
+                    TextInputType.number,
+                    (value) {
+                      if (value!.isEmpty) {
+                        return 'Add age ';
+                      }
+                      if (double.tryParse(value) == null) {
+                        return 'Add valid age';
+                      }
+                      if (double.parse(value) <= 17) {
+                        return 'Age is Must be Greater 18 ';
+                      }
 
-               isAdmin ?   Container(
+                      return null;
+                    },
+                    (value) {},
+                    false,
+                    textEditingController: ageController,
+                    // myController,
+                  ),
+                  BuildTextField(
+                    'Contact Number',
+
+                    TextInputAction.done,
+                    TextInputType.number,
+                    (value) {
+                      if (value!.isEmpty) {
+                        return 'Add contact number ';
+                      }
+                      if (double.tryParse(value) == null) {
+                        return 'Add valid number';
+                      }
+                      if (value.length < 10) {
+                        return 'invalid mobile number';
+                      }
+                      if (value.length > 10) {
+                        return 'invalid mobile number';
+                      }
+                      return null;
+                    },
+                    (value) {},
+                    false,
+                    textEditingController: phoneController,
+                    // myController,
+                  ),
+                  dropDown(
+                      onChangedFunction: (value) => setState(() {}),
+                      context: context,
+                      valueb: bloodvalue,
+                      myList: blodGroup),
+                  dropDown(
+                      onChangedFunction: (value) => setState(() {}),
+                      context: context,
+                      valueb: gengervalue,
+                      myList: gender)
+                ],
+              ),
+            ),
+
+            // isAdmin
+            //     ?
+
+            isAdmin
+                ? Container(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -311,9 +181,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                           padding: const EdgeInsets.only(top: 10),
                           child: TextButton(
                             onPressed: () {
-                            
-                                 _editBloodCard.toggleFavoriteStatus();
-                              
+                              ;
 
                               _saveForm;
 
@@ -332,12 +200,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: TextButton(
-                            onPressed: () {
-                              Provider.of<BloodStatusCards>(context,
-                                      listen: false)
-                                  .deleteCard(_editBloodCard.id);
-                              Navigator.of(context).pop();
-                            },
+                            onPressed: () {},
                             child: Text(
                               'Reject',
                               style: TextStyle(fontSize: 16),
@@ -351,26 +214,27 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                         ),
                       ],
                     ),
-                        ) : Container(),
+                  )
+                : Container(),
 
-                      // :
+            // :
 
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: TextButton(
-                      onPressed: _saveForm,
-                      child: Text(
-                        'Submit',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      style: TextButton.styleFrom(
-                        minimumSize: Size(double.infinity, 55),
-                      ),
-                    ),
-                  ),
-                ],
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: TextButton(
+                onPressed: _saveForm,
+                child: Text(
+                  'Submit',
+                  style: TextStyle(fontSize: 16),
+                ),
+                style: TextButton.styleFrom(
+                  minimumSize: Size(double.infinity, 55),
+                ),
               ),
             ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -415,9 +279,3 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
     );
   }
 }
-
-// 'gender': gengervalue == null ? gender[0] : '$gengervalue',
-
-//  (String? value) => setState(() {
-//               valueb = value!;
-//             }),
