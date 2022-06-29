@@ -1,9 +1,10 @@
 
 import 'package:blood_donation/view/add_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
-class ApplayScreen extends StatelessWidget {
+class ApplyScreen extends StatelessWidget {
   
 
   
@@ -19,11 +20,11 @@ class ApplayScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(
-              "Applay New Form",
+               AppLocalizations.of(context)!.newApplication,
               style: Theme.of(context).textTheme.headline1,
             ),
             Text(
-              "Description  is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,  ",
+              "വടവുകോട്‌ പുത്തെൻകുരിശ് ഗ്രാമപഞ്ചായത്തിലെ ഒന്നാം വാർഡിലെ ജനങ്ങൾ ആരംഭിച്ച ഗ്രാമഫോൺ കൂട്ടായ്മയുടെ രക്തദാന സേനയുടെ മൊബൈൽ ആപ്ലിക്കേഷൻ ആണ് ഇത്, രക്തം നൽകുവാനായി ആപ്ലിക്കേഷൻ ഫിൽ ചെയുക",
               style: Theme.of(context).textTheme.bodyText1,
             ),
             TextButton(
@@ -33,7 +34,8 @@ class ApplayScreen extends StatelessWidget {
                     .pushNamed(AddDetailsScreen.routName, arguments: 'new');
               },
               child: Text(
-                'Applay New',
+               AppLocalizations.of(context)!.applyNow,
+                
                 style: TextStyle(fontSize: 16),
               ),
               style: TextButton.styleFrom(

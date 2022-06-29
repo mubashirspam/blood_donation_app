@@ -15,7 +15,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "412986527136-3giniqu1hohh9ofmsj7dasr1d2rqhkbk.apps.googleusercontent.com",
+          "client_id": "412986527136-26o0ob7q0arolmopigi890i4vagrdv6j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gramaphone.blood",
+            "certificate_hash": "b704ffbf9f6c506af8df7893eac1e8cc6fd6a5d9"
+          }
+        },
+        {
+          "client_id": "412986527136-jo02ao0f16r3quo1i7qog3ki9gvhur25.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.gramaphone.blood",
@@ -23,7 +31,7 @@
           }
         },
         {
-          "client_id": "412986527136-3qdlv3s7c1h7er0vi4anr2qgbb145aem.apps.googleusercontent.com",
+          "client_id": "412986527136-ps308378m3rqqbmosb8altv0afr5v37t.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.gramaphone.blood",

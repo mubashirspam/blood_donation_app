@@ -1,14 +1,16 @@
-
-import 'package:blood_donation/controller/constants.dart';
 import 'package:blood_donation/controller/auth_services.dart';
+import 'package:blood_donation/controller/dataProvider.dart';
+import 'package:blood_donation/controller/utls.dart';
+import 'package:blood_donation/view/language.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import '../aboutUs.dart';
 import '/controller/route.dart' as route;
 
 class Option extends StatefulWidget {
-  // final User user;
   const Option({
     Key? key,
   }) : super(key: key);
@@ -19,33 +21,42 @@ class Option extends StatefulWidget {
 
 class _OptionState extends State<Option> {
   User? user = FirebaseAuth.instance.currentUser;
-  // late User user;
+  bool isAdmin = false;
   bool isSigningOut = false;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print(context.read<DataProvider>().isAdmin);
     return Drawer(
       child: ListView(
         children: <Widget>[
           UserAccountsDrawerHeader(
-            decoration:
-                BoxDecoration(color: Theme.of(context).colorScheme.secondary),
-            arrowColor: Colors.amber,
-            accountName: Text("Grama Phone Blood App"),
-            accountEmail:isAdmin ? Text('Admin Login') : Text("${user?.email}"),
-            currentAccountPicture: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.white),
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: NetworkImage("${user?.photoURL}"),
-                    fit: BoxFit.fill,
-                  )),
-            ),
-          ),
+              decoration:
+                  BoxDecoration(color: Theme.of(context).colorScheme.secondary),
+              arrowColor: Colors.amber,
+              accountName: Text("Grama Phone Blood App"),
+              accountEmail: context.read<DataProvider>().isAdmin
+                  ? Text('Admin Login')
+                  : Text("${user?.email}"),
+              currentAccountPicture: context.read<DataProvider>().isAdmin
+                  ? Container()
+                  : Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white),
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: NetworkImage("${user?.photoURL}"),
+                            fit: BoxFit.fill,
+                          )),
+                    )),
           ListTile(
             title: Text(
-              'Home Page',
+              AppLocalizations.of(context)!.homePage,
               style: Theme.of(context).textTheme.bodyText1,
             ),
             leading: Icon(
@@ -58,23 +69,25 @@ class _OptionState extends State<Option> {
               //     context, MaterialPageRoute(builder: (context) => HomePage()));
             },
           ),
+          context.read<DataProvider>().isAdmin
+              ? Container()
+              : ListTile(
+                  title: Text(
+                    AppLocalizations.of(context)!.askDoubt,
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                  leading: Icon(
+                    Icons.question_answer,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                  onTap: () {
+                    Utils().launchInBrowser(
+                        "https://wa.me/%2B917561017476?text=hi%20please%20share%20the%20details%20about%20grama%20phone%20blood%20donation%20app");
+                  },
+                ),
           ListTile(
             title: Text(
-              'Ask A Doubt',
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
-            leading: Icon(
-              Icons.question_answer,
-              color: Theme.of(context).colorScheme.onPrimary,
-            ),
-            onTap: () {
-              _launchInBrowser(
-                  "https://wa.me/%2B917561017476?text=hi%20please%20share%20the%20details%20about%20grama%20phone%20blood%20donation%20app");
-            },
-          ),
-          ListTile(
-            title: Text(
-              'About US',
+              AppLocalizations.of(context)!.aboutUs,
               style: Theme.of(context).textTheme.bodyText1,
             ),
             leading: Icon(
@@ -89,9 +102,9 @@ class _OptionState extends State<Option> {
           Divider(
             color: Colors.grey,
           ),
-             ListTile(
+          ListTile(
             title: Text(
-              'Language',
+              AppLocalizations.of(context)!.languages,
               style: Theme.of(context).textTheme.bodyText1,
             ),
             leading: Icon(
@@ -100,28 +113,31 @@ class _OptionState extends State<Option> {
             ),
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AboutPage()));
+                  MaterialPageRoute(builder: (context) => LanguageView()));
             },
           ),
           Divider(
             color: Colors.grey,
           ),
-          ListTile(
-            title: Text(
-              'Rate Us',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            leading: Icon(
-              Icons.shop,
-              color: Theme.of(context).colorScheme.secondary,
-            ),
-            onTap: () {
-              _launchInBrowser('https://play.google.com/store/apps/details');
-            },
-          ),
+          context.read<DataProvider>().isAdmin
+              ? Container()
+              : ListTile(
+                  title: Text(
+                    AppLocalizations.of(context)!.rateUs,
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                  leading: Icon(
+                    Icons.shop,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                  onTap: () {
+                    Utils().launchInBrowser(
+                        "http://play.google.com/store/apps/details?id=com.gramaphone.blood");
+                  },
+                ),
           ListTile(
               title: Text(
-                'Log out',
+                AppLocalizations.of(context)!.logOut,
                 style: Theme.of(context).textTheme.headline4,
               ),
               leading: Icon(
@@ -142,18 +158,5 @@ class _OptionState extends State<Option> {
         ],
       ),
     );
-  }
-}
-
-Future<void> _launchInBrowser(String url) async {
-  if (await canLaunch(url)) {
-    await launch(
-      url,
-      forceSafariVC: false,
-      forceWebView: false,
-      headers: <String, String>{'header_key': 'header_value'},
-    );
-  } else {
-    throw 'Could not launch $url';
   }
 }

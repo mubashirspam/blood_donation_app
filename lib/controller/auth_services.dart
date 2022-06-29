@@ -1,3 +1,4 @@
+import 'package:blood_donation/controller/route.dart';
 import 'package:blood_donation/controller/utls.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,7 +9,6 @@ import '/controller/route.dart' as route;
 
 //! akbar
 class Authentication {
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   get user => _auth.currentUser;
@@ -18,11 +18,13 @@ class Authentication {
     required BuildContext context,
   }) async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
-
-    User? user = FirebaseAuth.instance.currentUser;
+   
+    User? user = await FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      Navigator.of(context).pushReplacementNamed(route.homePage);
+      Navigator.of(context).pushReplacementNamed(
+        route.homePage,
+      );
     }
 
     return firebaseApp;
@@ -48,6 +50,9 @@ class Authentication {
       );
 
       try {
+        // if (!kIsWeb) {
+        //    GoogleAuthProvider authProvider = GoogleAuthProvider();
+        // }
         final UserCredential userCredential =
             await auth.signInWithCredential(credential);
 
@@ -55,26 +60,31 @@ class Authentication {
       } on FirebaseAuthException catch (e) {
         if (e.code == 'account-exists-with-different-credential') {
           ScaffoldMessenger.of(context).showSnackBar(
-            Utils().toast( context,
-              
-                  'The account already exists with a different credential.',
+            Utils().toast(
+              context,
+              'The account already exists with a different credential.',
             ),
           );
         } else if (e.code == 'invalid-credential') {
           ScaffoldMessenger.of(context).showSnackBar(
-            Utils().toast( context, 'Error occurred while accessing credentials. Try again.',
+            Utils().toast(
+              context,
+              'Error occurred while accessing credentials. Try again.',
             ),
           );
         }
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          Utils().toast( context, 'Error occurred using Google Sign-In. Try again.',
+          Utils().toast(
+            context,
+            'Error occurred using Google Sign-In. Try again.',
           ),
         );
       }
 
       return user;
     }
+    return null;
   }
   //! sign out method
 
@@ -88,13 +98,13 @@ class Authentication {
       await FirebaseAuth.instance.signOut();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        Utils().toast( context, 'Error signing out. Try again.',
+        Utils().toast(
+          context,
+          'Error signing out. Try again.',
         ),
       );
     }
   }
-
-
 
 //!  SIGN UP WITH EMAIL AND PASSWORD
   Future<String?> signUpWithMailId(
@@ -132,4 +142,7 @@ class Authentication {
 
     return 'Signin failed';
   }
+
+
+  
 }

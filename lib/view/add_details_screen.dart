@@ -14,7 +14,10 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 class AddDetailsScreen extends StatefulWidget {
+  final BloodModel? bloodModel;
   static final routName = '/Add_details_screen';
+  AddDetailsScreen({Key? key, this.bloodModel}) : super(key: key);
+
   @override
   _AddDetailsScreenState createState() => _AddDetailsScreenState();
 }
@@ -60,6 +63,57 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
           Utils().toast(context, 'Successfully added'),
           Navigator.of(context).pop(),
         });
+  }
+
+  Future<void> update() async {
+    bool _isValid = _formKey.currentState!.validate();
+
+    if (!_isValid) {
+      return;
+    }
+    BloodModel _updateModel = BloodModel(
+        gender: gengervalue ?? gender[0],
+        age: double.parse(ageController.text),
+        bloodGrupe: bloodvalue ?? blodGroup[0],
+        collectionId: widget.bloodModel!.collectionId,
+        userId: widget.bloodModel!.userId,
+        name: nameController.text,
+        isApproved: true,
+        contact: int.parse(phoneController.text),
+        nameInMalayam: nameInMalayalamController.text);
+    context.read<DataProvider>().updateDonor(_updateModel).then((value) => {
+          Utils().toast(context, 'Successfully  updated'),
+          Navigator.of(context).pop(),
+          context.read<DataProvider>().setNoteAprovedrList(false),
+        });
+  }
+
+  void deletDonor() {
+    context
+        .read<DataProvider>()
+        .deleteAddedDonor(widget.bloodModel!.collectionId)
+        .then((value) => {
+              Utils().toast(context, 'Successfully  deleted'),
+              Navigator.of(context).pop(),
+              context.read<DataProvider>().setNoteAprovedrList(false),
+            });
+  }
+
+  @override
+  void initState() {
+    first();
+    super.initState();
+  }
+
+  first() {
+    if (context.read<DataProvider>().isAdmin) {
+      nameController..text = widget.bloodModel?.name ?? '';
+      ageController.text = widget.bloodModel?.age.toStringAsFixed(0) ?? '';
+      phoneController.text = widget.bloodModel?.contact.toString() ?? '';
+      nameInMalayalamController.text = widget.bloodModel?.nameInMalayam ?? '';
+      bloodvalue = widget.bloodModel?.bloodGrupe;
+      gengervalue = widget.bloodModel?.gender;
+    }
   }
 
   @override
@@ -156,12 +210,16 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                     // myController,
                   ),
                   dropDown(
-                      onChangedFunction: (value) => setState(() {}),
+                      onChangedFunction: (value) => setState(() {
+                            bloodvalue = value;
+                          }),
                       context: context,
                       valueb: bloodvalue,
                       myList: blodGroup),
                   dropDown(
-                      onChangedFunction: (value) => setState(() {}),
+                      onChangedFunction: (value) => setState(() {
+                            gengervalue = value;
+                          }),
                       context: context,
                       valueb: gengervalue,
                       myList: gender)
@@ -172,7 +230,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
             // isAdmin
             //     ?
 
-            isAdmin
+            context.read<DataProvider>().isAdmin
                 ? Container(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -181,12 +239,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                           padding: const EdgeInsets.only(top: 10),
                           child: TextButton(
                             onPressed: () {
-                              ;
-
-                              _saveForm;
-
-                              Navigator.of(context).pop();
-                              // card.toggleFavoriteStatus();
+                              update();
                             },
                             child: Text(
                               'Approve',
@@ -200,7 +253,9 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              deletDonor();
+                            },
                             child: Text(
                               'Reject',
                               style: TextStyle(fontSize: 16),
@@ -219,19 +274,21 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
 
             // :
 
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: TextButton(
-                onPressed: _saveForm,
-                child: Text(
-                  'Submit',
-                  style: TextStyle(fontSize: 16),
-                ),
-                style: TextButton.styleFrom(
-                  minimumSize: Size(double.infinity, 55),
-                ),
-              ),
-            ),
+            context.read<DataProvider>().isAdmin
+                ? Container()
+                : Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: TextButton(
+                      onPressed: _saveForm,
+                      child: Text(
+                        'Submit',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      style: TextButton.styleFrom(
+                        minimumSize: Size(double.infinity, 55),
+                      ),
+                    ),
+                  ),
           ],
         ),
       ),

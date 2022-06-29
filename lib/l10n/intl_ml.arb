@@ -1,0 +1,27 @@
+{
+  "homePage": "ഹോം പേജ്",
+  "askDoubt": "സംശയം ചോദിക്കുക",
+  "aboutUs": "ഞങ്ങളേക്കുറിച്ച്",
+  "languages": "ഭാഷകൾ",
+  "rateUs": "ഞങ്ങളെ റേറ്റുചെയ്യുക",
+  "logOut": "പുറത്തുകടക്കുക",
+  "iAm": "ഞാൻ",
+  "myProfile": "എന്റെ പ്രൊഫൈൽ",
+  "applicationStatus": "അപേക്ഷയുടെ നില",
+  "status": "നില",
+  "approved": "അംഗീകരിച്ചു",
+  "rejected": "നിരസിച്ചു",
+  "newApplication": "പുതിയ ആപ്ലിക്കേഷൻ",
+  "applyNow": "ഇപ്പോൾ അപേക്ഷിക്കുക",
+  "homeScreen": "ഹോം സ്‌ക്രീൻ",
+  "message": "സന്ദേശം",
+  "makeACall": "ഫോണ് വിളി",
+  "call": "വിളിക്കുക",
+  "admin": "അഡ്മിൻ",
+  "signInWithGoogle": "ഗൂഗിൾ ഉപയോഗിച്ച് ലോഗിൻ ചെയ്യുക",
+  "adminLogin": "അഡ്മിൻ ലോഗിൻ",
+  "userName": "യൂസർ നെയിം",
+  "password": "പാസ്സ്‌വേർഡ്‌",
+  "noApplicationFount": "അപേക്ഷയൊന്നും കണ്ടെത്തിയില്ല"
+
+}

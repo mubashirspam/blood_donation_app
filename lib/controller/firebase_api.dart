@@ -11,8 +11,9 @@ class FirebaseApi {
     await bloodRef.doc(bloodModel.collectionId).set(bloodModel.toJson(bloodModel));
   }
 
-  Future<List<BloodModel>> getDonorList() async {
-    final donorList = await bloodRef.get().then((value) {
+  Future<List<BloodModel>> getDonorList(bool bool) async {
+    final donorList = await bloodRef.where('isApproved', isEqualTo: bool).get()
+    .then((value) {
       return value.docs
           .map((doc) => BloodModel.fromJson(doc.data() as Map<String, dynamic>))
           .toList();
@@ -30,6 +31,16 @@ class FirebaseApi {
             });
     return userList;
   }
+    Future<List<BloodModel>> serchDoner(String bloodGroup) async {
+    final userList =
+        await bloodRef.where('bloodGrupe', isEqualTo: bloodGroup).where('isApproved', isEqualTo: true).get().then((value) {
+              return value.docs
+                  .map((doc) =>
+                      BloodModel.fromJson(doc.data() as Map<String, dynamic>))
+                  .toList();
+            });
+    return userList;
+  }
 
   Future<void> updateDonor(BloodModel bloodModel) async {
     await bloodRef
@@ -40,4 +51,6 @@ class FirebaseApi {
   Future<void> deleteDonor(String  collectionId) async {
     return await bloodRef.doc(collectionId).delete();
   }
+
+  
 }

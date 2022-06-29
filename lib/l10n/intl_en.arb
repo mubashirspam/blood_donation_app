@@ -1,0 +1,98 @@
+{
+  "homePage": "HomePage",
+  "@homePage": {
+    "description": "this is a home page"
+  },
+  "askDoubt": "Ask Doubt",
+  "@askDoubt": {
+    "description": "Drawer"
+  },
+  "aboutUs": "About Us",
+  "@aboutUs": {
+    "description": "The conventional newborn programmer greeLanguages"
+  },
+  "languages": "Languages",
+  "@languages": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "rateUs": "Rate Us",
+  "@rateUs": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "logOut": "Log Out",
+  "@logOut": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "iAm": "I am",
+  "@iAm": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "myProfile": "My Profile",
+  "@myProfile": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "applicationStatus": "Application Status",
+  "@applicationStatus": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "status": "Status",
+  "@status": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "approved": "Approved",
+  "@approved": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "rejected": "Rejected",
+  "@rejected": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "newApplication": "New Application",
+  "@newApplication": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "applyNow": "Apply Now",
+  "@applyNow": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "homeScreen": "Home Screen",
+  "@homeScreen": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "message": "Message",
+  "@message": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "makeACall": "Make A Call",
+  "@makeACall": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "call": "Call",
+  "@call": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "admin": "Admin",
+  "@admin": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "signInWithGoogle": "Sign In With Google",
+  "@signInWithGoogle": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "adminLogin": "Admin Login",
+  "@adminLogin": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "userName": "User Name",
+  "@userName": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "password": "Password",
+  "@password": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "noApplicationFount": "No Application Fount",
+  "@noApplicationFount": {
+    "description": "The conventional newborn programmer greeting"
+  }
+}

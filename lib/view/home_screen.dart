@@ -1,6 +1,3 @@
-
-
-
 import 'package:blood_donation/controller/dataProvider.dart';
 import 'package:blood_donation/view/widgets/card_grid.dart';
 import 'package:flutter/material.dart';
@@ -12,39 +9,37 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // var _showOnlyApproved = true;
-var _isInit = true;
-var _isLoading = false;
+  Future<void> _refreshData(BuildContext context) async {}
 
-  Future<void> _refreshData(BuildContext context) async {
-   
+  @override
+  void initState() {
+    context.read<DataProvider>().setDonorList(true);
+    super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
-
+  
     return Scaffold(
-     
-      body: _isLoading
+      // appBar: AppBar(),
+      body: context.watch<DataProvider>().isLoading
           ? Center(
               child: CircularProgressIndicator(
                 backgroundColor: Colors.purple.shade100,
                 color: Colors.purple,
               ),
             )
-          :
-          
-           RefreshIndicator(
-             onRefresh: () => _refreshData(context),
-             child: Container(
+          : RefreshIndicator(
+              onRefresh: () => _refreshData(context),
+              child: Container(
                 padding: EdgeInsets.all(15),
                 width: double.infinity,
                 height: double.infinity,
-                child: StatusGrid(),
-               
+                child: Consumer<DataProvider>(builder: (context, ntfr, _) {
+                  return StatusGrid(data: ntfr.getBloodList);
+                }),
               ),
-           ),
+            ),
     );
   }
 }

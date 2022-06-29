@@ -3,6 +3,9 @@ import 'package:blood_donation/model/blood_model.dart';
 import 'package:blood_donation/view/add_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '/controller/route.dart' as route;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class StatusCardItem extends StatelessWidget {
   final BloodModel bloodModel;
@@ -91,15 +94,29 @@ class StatusCardItem extends StatelessWidget {
               bloodModel.contact.toString(),
               style: Theme.of(context).textTheme.bodyText1,
             ),
-            trailing: bloodModel.isApproved
-                ? Text(
-                    'Approved',
-                    style: Theme.of(context).textTheme.bodyText1,
-                  )
-                : Text(
-                    'Pending',
-                    style: TextStyle(color: Colors.red),
-                  ),
+            trailing: context.read<DataProvider>().isAdmin
+                ? IconButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (ctx) => AddDetailsScreen(
+                          bloodModel: bloodModel,
+                        ),
+                      ));
+                    },
+                    icon: Icon(
+                      Icons.check,
+                      color: Colors.red,
+                    ))
+                : bloodModel.isApproved
+                    ? Text(
+                        AppLocalizations.of(context)!.approved,
+                        style: Theme.of(context).textTheme.bodyText1,
+                      )
+                    : Text(
+                        'Pending',
+                        
+                        style: TextStyle(color: Colors.red),
+                      ),
           ),
         ),
       ),

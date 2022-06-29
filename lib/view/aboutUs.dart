@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class AboutPage extends StatefulWidget {
   @override
@@ -6,6 +7,14 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
+  String? version;
+
+  Future<String> getVersionName() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    return packageInfo.version;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,18 +26,41 @@ class _AboutPageState extends State<AboutPage> {
               Container(
                 height: 300,
               ),
-              Text('For more information Contact',style: TextStyle(color: Colors.black87,fontWeight: FontWeight.bold,fontSize: 18),),
+              Text(
+                'For more information Contact',
+                style: TextStyle(
+                    color: Colors.black87,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
+              ),
               Divider(
                 color: Colors.transparent,
               ),
-              Text('anasmm@gmail.com',style: TextStyle(color: Colors.black87,fontWeight: FontWeight.bold,fontSize: 25),),
+              Text(
+                'anasmm99@gmail.com',
+                style: TextStyle(
+                    color: Colors.black87,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24),
+              ),
               Divider(
                 color: Colors.transparent,
               ),
-              Text('App Version: 1.00021',style: TextStyle(color: Colors.black87,fontWeight: FontWeight.bold,fontSize: 18),),
+              FutureBuilder(
+                future: getVersionName()
+                ,
+                builder: (context, snapshot) {
+                  return Text(
+                    'App Version: ${snapshot.data}',
+                    style: TextStyle(
+                        color: Colors.black87,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  );
+                }
+              ),
             ],
           ),
-
         ),
       ),
     );

@@ -1,4 +1,3 @@
-
 import 'package:blood_donation/view/add_details_screen.dart';
 import 'package:blood_donation/view/login_screen.dart';
 import 'package:blood_donation/view/tab_screen_dart.dart';
@@ -12,7 +11,8 @@ const String adminLoginPage = 'adminLogin';
 const String adDetailsScreen = 'adDetailsScreen';
 
 Route<dynamic> controller(RouteSettings settings) {
-  final arguments = settings.arguments;
+  
+
   switch (settings.name) {
     case loginPage:
       return MaterialPageRoute(builder: (context) => LoginScreen());
@@ -23,10 +23,15 @@ Route<dynamic> controller(RouteSettings settings) {
     case homePage:
       return MaterialPageRoute(
           builder: (context) => TabScreen(
-                isAdmin: arguments,
+                
               ));
 
     default:
       return MaterialPageRoute(builder: (context) => LoginScreen());
   }
+}
+
+class ScreenArguments {
+  late bool isAdmin;
+  ScreenArguments({required this.isAdmin});
 }

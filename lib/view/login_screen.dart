@@ -1,8 +1,11 @@
+import 'dart:developer';
 
 import 'package:blood_donation/controller/constants.dart';
 import 'package:blood_donation/controller/auth_services.dart';
+import 'package:blood_donation/controller/language_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '/controller/route.dart' as route;
 
 class LoginScreen extends StatefulWidget {
@@ -13,7 +16,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  
+  @override
+  void initState() {
+    context.read<LanguagePro>().fetechLanguage();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,8 +56,9 @@ class LoginUi extends StatefulWidget {
   _LoginUiState createState() => _LoginUiState();
 }
 
+bool isSigningIn = false;
+
 class _LoginUiState extends State<LoginUi> {
-  bool _isSigningIn = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,7 +99,8 @@ class _LoginUiState extends State<LoginUi> {
             TextButton(
               onPressed: () {
                 // Navigator.of(context).pushNamed(route.homePage);
-                Navigator.of(context).pushNamed(route.adminLoginPage);
+                Navigator.of(context).pushNamed(route.adminLoginPage,
+                    arguments: route.ScreenArguments(isAdmin: false));
               },
               child: Text(
                 'Admin',
@@ -106,7 +116,7 @@ class _LoginUiState extends State<LoginUi> {
             TextButton(
               onPressed: () async {
                 setState(() {
-                  _isSigningIn = true;
+                  isSigningIn = true;
                   isAdmin == false;
                 });
 
@@ -114,17 +124,18 @@ class _LoginUiState extends State<LoginUi> {
                     await Authentication.signInWithGoogle(context: context);
 
                 setState(() {
-                  _isSigningIn = false;
+                  isSigningIn = false;
                 });
 
+                  log('caaled');
                 if (user != null) {
-                  bool isAdmin = true;
+                  bool isAdmin = false;
                   Navigator.of(context)
                       .pushNamed(route.homePage, arguments: isAdmin);
                 }
 
                 setState(() {
-                  _isSigningIn = false;
+                  isSigningIn = false;
                 });
               },
               child: Text(
